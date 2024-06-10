@@ -88,4 +88,5 @@ EXPRESION ::= MENOS EXPRESION:a             {:   RESULT = new Aritmeticas(a, Ope
             | CADENA:a      {:   RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright );   :}
             | CARACTER:a    {:   RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER), aleft, aright );   :}
             | BOOLEANO:a    {:   RESULT = new Nativo(a, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
+            | PAR1 EXPRESION:a PAR2 {:   RESULT = a; :}
 ;

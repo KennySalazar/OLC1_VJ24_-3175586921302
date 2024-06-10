@@ -77,7 +77,7 @@ public class Aritmeticas extends Instruccion {
                 this.multiplicacion(opIzq, opDer);
             case DIVISION ->
                 this.division(opIzq, opDer);
-            case POTENCIA->
+            case POTENCIA ->
                 this.potencia(opIzq, opDer);
             case MODULO ->
                 this.modulo(opIzq, opDer);
@@ -422,10 +422,7 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         // Validar que no venga op1/0, 0/op2, 0/0
-        if ((tipo1 == tipoDato.ENTERO && (int) op1 == 0 && (tipo2 == tipoDato.ENTERO || tipo2 == tipoDato.DECIMAL))
-                || (tipo1 == tipoDato.DECIMAL && (double) op1 == 0.0 && (tipo2 == tipoDato.ENTERO || tipo2 == tipoDato.DECIMAL))
-                || (tipo1 == tipoDato.CARACTER && op1.toString().charAt(0) == '0' && (tipo2 == tipoDato.ENTERO || tipo2 == tipoDato.DECIMAL || tipo2 == tipoDato.CARACTER))
-                || (tipo2 == tipoDato.ENTERO && (int) op2 == 0)
+        if ((tipo2 == tipoDato.ENTERO && (int) op2 == 0)
                 || (tipo2 == tipoDato.DECIMAL && (double) op2 == 0.0)
                 || (tipo2 == tipoDato.CARACTER && op2.toString().charAt(0) == '0')) {
             return new Errores("SEMANTICO", "No se puede realizar la operacion division", this.linea, this.col);
@@ -527,7 +524,7 @@ public class Aritmeticas extends Instruccion {
                 switch (tipo2) {
                     //ENTERO ** ENTERO = ENTERO
                     case ENTERO -> {
-                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) Math.pow((int) op1, (int) op2);
                     }
                     //ENTERO ** DECIMAL = DECIMAL

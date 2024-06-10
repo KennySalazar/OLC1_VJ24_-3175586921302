@@ -4,12 +4,17 @@
  */
 package com.mycompany.proyecto_compi1.vista;
 
+import abstracto.Instruccion;
+import analisis.parser;
+import analisis.scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFileChooser;
 
@@ -17,30 +22,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import javax.swing.JTextArea;
+import javax.swing.JViewport;
 
 import javax.swing.text.JTextComponent;
+import simbolo.Arbol;
+import simbolo.tablaSimbolos;
 
 /**
  *
  * @author Kenny Salazar
  */
 public class EditorPrincipal extends javax.swing.JFrame {
-    
+
     numeroLinea numeroLinea;
-   
-    
+
     private List<JTextArea> textAreas;
-    
 
     /**
      * Creates new form EditorPrincipal
      */
     public EditorPrincipal() {
         initComponents();
-     
+
         textAreas = new ArrayList<>();
-        
-         
+
     }
 
     /**
@@ -54,7 +59,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btEjecutar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -76,12 +81,12 @@ public class EditorPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setForeground(new java.awt.Color(153, 0, 0));
-        jButton1.setText("Ejecutar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btEjecutar.setBackground(new java.awt.Color(204, 204, 204));
+        btEjecutar.setForeground(new java.awt.Color(153, 0, 0));
+        btEjecutar.setText("Ejecutar");
+        btEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btEjecutarActionPerformed(evt);
             }
         });
 
@@ -170,7 +175,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1)
+                                .addComponent(btEjecutar)
                                 .addGap(12, 12, 12))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -184,7 +189,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton1)
+                    .addComponent(btEjecutar)
                     .addComponent(btnCargaArchivo)
                     .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -242,21 +247,57 @@ public class EditorPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEjecutarActionPerformed
+        // Obtener el índice de la pestaña seleccionada
+        int selectedIndex = entradaTabbed.getSelectedIndex();
+
+        if (selectedIndex != -1) {
+            // Obtener el componente (JScrollPane) de la pestaña seleccionada
+            JScrollPane scrollPane = (JScrollPane) entradaTabbed.getComponentAt(selectedIndex);
+
+            // Obtener el JTextArea del JScrollPane
+            JViewport viewport = scrollPane.getViewport();
+            JTextArea textArea = (JTextArea) viewport.getView();
+
+            // Obtener el texto del JTextArea
+            String texto = textArea.getText();
+
+          
+
+            //------
+            try {
+
+                scanner s = new scanner(new BufferedReader(new StringReader(texto)));
+                parser p = new parser(s);
+                var resultado = p.parse();
+                var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
+                var tabla = new tablaSimbolos();
+                tabla.setNombre("GLOBAL");
+                ast.setConsola("");
+                for (var a : ast.getInstrucciones()) {
+                    var res = a.interpretar(ast, tabla);
+                }
+                System.out.println(ast.getConsola());
+                this.jTextArea2.setText(ast.getConsola());
+            } catch (Exception ex) {
+                this.jTextArea2.setText("ALGO SALIO MAL\n " + ex);
+                System.out.println("Algo salio mal");
+                System.out.println(ex);
+            }
+        } else {
+            // Si no hay una pestaña seleccionada, mostrar un mensaje de advertencia
+            JOptionPane.showMessageDialog(this, "No hay una pestaña seleccionada.");
+        }
+
+
+    }//GEN-LAST:event_btEjecutarActionPerformed
 
     private void btnCargaArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargaArchivoActionPerformed
         // TODO add your handling code here:
         abrirFileChooser();
     }//GEN-LAST:event_btnCargaArchivoActionPerformed
 
-  
-    
-    
-    
- 
-     public void abrirFileChooser() {
+    public void abrirFileChooser() {
         JFileChooser jf = new JFileChooser();
         int returnValue = jf.showOpenDialog(this.jPanel2);
 
@@ -266,11 +307,11 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 JTextArea nuevaAreaTexto = new JTextArea();
                 textAreas.add(nuevaAreaTexto);
                 numeroLinea lineNumberTextArea = new numeroLinea(nuevaAreaTexto);
-               // lineNumberTextArea.setEditable(false);
+                // lineNumberTextArea.setEditable(false);
                 JScrollPane scrollPane = new JScrollPane(nuevaAreaTexto);
                 scrollPane.setRowHeaderView(lineNumberTextArea);
                 entradaTabbed.addTab(archivo.getName(), scrollPane);
-                
+
                 leerArchivoDeEntrada(archivo.getAbsolutePath(), nuevaAreaTexto);
             }
         }
@@ -300,9 +341,9 @@ public class EditorPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btEjecutar;
     private javax.swing.JButton btnCargaArchivo;
     private javax.swing.JTabbedPane entradaTabbed;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
