@@ -6,14 +6,14 @@ package expresiones;
 
 /**
  *
- * @author fabian
+ * @author Kenny Salazar
  */
-public enum OperadoresAritmeticos {
-    SUMA,
-    RESTA,
-    MULTIPLICACION,
-    DIVISION,
-    POTENCIA,
-    MODULO,
-    NEGACION
+public enum OperadoresRelacionales {
+    IGUALACION,
+    DIFERENCIACION,
+    MENOR_QUE,
+    MENOR_IGUAL_QUE,
+    MAYOR_QUE,
+    MAYOR_IGUAL_QUE
+    
 }

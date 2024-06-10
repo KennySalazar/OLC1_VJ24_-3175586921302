@@ -92,21 +92,21 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
     ";"                 {return new Symbol(sym.FINCADENA, yyline, yycolumn, yytext());}
     "+"                 {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}
     "-"                 {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}
-    //"*"                 {return new Symbol(sym.MULT, yyline, yycolumn, yytext());}
-    //"/"                 {return new Symbol(sym.DIV, yyline, yycolumn, yytext());}
+    "*"                 {return new Symbol(sym.MULTIPLICACION, yyline, yycolumn, yytext());}
+    "/"                 {return new Symbol(sym.DIVISION, yyline, yycolumn, yytext());}
     "("                 {return new Symbol(sym.PAR1, yyline, yycolumn, yytext());}
     ")"                 {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}
-    //"**"                {return new Symbol(sym.POTENCIA, yyline, yycolumn, yytext());}
-    //"%"                 {return new Symbol(sym.MODULO, yyline, yycolumn, yytext());}
+    "**"                {return new Symbol(sym.POTENCIA, yyline, yycolumn, yytext());}
+    "%"                 {return new Symbol(sym.MODULO, yyline, yycolumn, yytext());}
     //":"                 {return new Symbol(sym.DOSPUNTOS, yyline, yycolumn, yytext());}
    // ";"                 {return new Symbol(sym.PCOMA, yyline, yycolumn, yytext());}
-    //"=="                {return new Symbol(sym.COMPARACIONIGUALIGUAL, yyline, yycolumn, yytext());}
+    "=="                {return new Symbol(sym.COMPARACIONIGUALIGUAL, yyline, yycolumn, yytext());}
     //"="                {return new Symbol(sym.ASIGNACION, yyline, yycolumn, yytext());}
-    //"!="                {return new Symbol(sym.NEGACION, yyline, yycolumn, yytext());}
-    //"<"                 {return new Symbol(sym.MENORQUE, yyline, yycolumn, yytext());}
-    //"<="                {return new Symbol(sym.MENORIGUALQUE, yyline, yycolumn, yytext());}
-    //">"                 {return new Symbol(sym.MAYORQUE, yyline, yycolumn, yytext());}
-    //">="                {return new Symbol(sym.MAYORIGUALQUE, yyline, yycolumn, yytext());}
+    "!="                {return new Symbol(sym.NEGACION, yyline, yycolumn, yytext());}
+    "<"                 {return new Symbol(sym.MENORQUE, yyline, yycolumn, yytext());}
+    "<="                {return new Symbol(sym.MENORIGUALQUE, yyline, yycolumn, yytext());}
+    ">"                 {return new Symbol(sym.MAYORQUE, yyline, yycolumn, yytext());}
+    ">="                {return new Symbol(sym.MAYORIGUALQUE, yyline, yycolumn, yytext());}
     //"||"                {return new Symbol(sym.OR, yyline, yycolumn, yytext());}
     //"&&"                {return new Symbol(sym.AND, yyline, yycolumn, yytext());}
     //"^"                 {return new Symbol(sym.XOR, yyline, yycolumn, yytext());}
