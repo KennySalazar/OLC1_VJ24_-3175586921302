@@ -192,7 +192,7 @@ public class Relacionales extends Instruccion {
                     //CADENA == CADENA = BOOLEANO
                     case CADENA -> {
                         this.tipo.setTipo(tipoDato.BOOLEANO);
-                        return op1.toString().equals(op2.toString());
+                        return op1.toString().equalsIgnoreCase(op2.toString());
                     }
 
                     default -> {
@@ -316,7 +316,7 @@ public class Relacionales extends Instruccion {
                     //CADENA != CADENA = BOOLEANO
                     case CADENA -> {
                         this.tipo.setTipo(tipoDato.BOOLEANO);
-                        return !op1.toString().equals(op2.toString());
+                        return !op1.toString().equalsIgnoreCase(op2.toString());
                     }
 
                     default -> {
@@ -392,6 +392,25 @@ public class Relacionales extends Instruccion {
                     }
                 }
 
+            }
+
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    // BOOLEANO < BOOLEANO = BOOLEANO
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+
+                        // Convertir booleanos a enteros
+                        int valorOp1 = Boolean.parseBoolean(op1.toString()) ? 1 : 0;
+                        int valorOp2 = Boolean.parseBoolean(op2.toString()) ? 1 : 0;
+
+                        return valorOp1 < valorOp2;
+
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "Menor que erroneo con tipo no soportado: " + tipo2, this.linea, this.col);
+                    }
+                }
             }
 
             case CARACTER -> {
@@ -509,6 +528,22 @@ public class Relacionales extends Instruccion {
 
             }
 
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    //DECIMAL <= ENTERO = BOOLEANO
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        // Convertir booleanos a enteros
+                        int valorOp1 = Boolean.parseBoolean(op1.toString()) ? 1 : 0;
+                        int valorOp2 = Boolean.parseBoolean(op2.toString()) ? 1 : 0;
+                        return valorOp1 <= valorOp2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "Menor o igual que erroneo con tipo no soportado: " + tipo2, this.linea, this.col);
+                    }
+                }
+            }
+
             case CARACTER -> {
                 switch (tipo2) {
                     //CARACTER < ENTERO = BOOLEANO
@@ -624,6 +659,22 @@ public class Relacionales extends Instruccion {
 
             }
 
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    //DECIMAL > ENTERO = BOOLEANO
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        // Convertir booleanos a enteros
+                        int valorOp1 = Boolean.parseBoolean(op1.toString()) ? 1 : 0;
+                        int valorOp2 = Boolean.parseBoolean(op2.toString()) ? 1 : 0;
+                        return valorOp1 > valorOp2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "Mayor  que erroneo con tipo no soportado: " + tipo2, this.linea, this.col);
+                    }
+                }
+            }
+
             case CARACTER -> {
                 switch (tipo2) {
                     //CARACTER > ENTERO = BOOLEANO
@@ -737,6 +788,22 @@ public class Relacionales extends Instruccion {
                     }
                 }
 
+            }
+
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    //DECIMAL >= ENTERO = BOOLEANO
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                     // Convertir booleanos a enteros
+                        int valorOp1 = Boolean.parseBoolean(op1.toString()) ? 1 : 0;
+                        int valorOp2 = Boolean.parseBoolean(op2.toString()) ? 1 : 0;
+                        return valorOp1 >= valorOp2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "Mayor o igual  que erroneo con tipo no soportado: " + tipo2, this.linea, this.col);
+                    }
+                }
             }
 
             case CARACTER -> {

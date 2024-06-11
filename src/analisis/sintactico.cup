@@ -55,8 +55,8 @@ nonterminal Instruccion EXPRESION;
 precedence left COMPARACIONIGUALIGUAL, NEGACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
 precedence left MAS, MENOS;
 precedence left MULTIPLICACION, DIVISION, MODULO;
-precedence left POTENCIA;
-precedence left UMENOS;
+precedence nonassoc POTENCIA;
+precedence right UMENOS;
 
 start with INICIO;
 

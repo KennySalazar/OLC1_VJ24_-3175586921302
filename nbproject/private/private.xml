@@ -4,14 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/lexico.jflex</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/Generador.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/tipoDato.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/sym.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Aritmeticas.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/parser.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/excepciones/Errores.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresAritmeticos.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/Generador.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresRelacionales.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/main/Main.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/parser.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresAritmeticos.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/vista/EditorPrincipal.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Relacionales.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Nativo.java</file>
         </group>
     </open-files>
 </project-private>
