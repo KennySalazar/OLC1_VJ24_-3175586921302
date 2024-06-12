@@ -14,8 +14,10 @@ import instrucciones.Print;
 import expresiones.Nativo;
 import expresiones.Aritmeticas;
 import expresiones.Relacionales;
+import expresiones.Logicos;
 import expresiones.OperadoresAritmeticos;
 import expresiones.OperadoresRelacionales;
+import expresiones.OperadoresLogicos;
 
 // parser
 parser code
@@ -46,12 +48,18 @@ terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO;
 terminal FINCADENA, PRINTLN;
 terminal PAR1, PAR2, MAS, MENOS, UMENOS, MULTIPLICACION, DIVISION, POTENCIA, MODULO;
 terminal COMPARACIONIGUALIGUAL, NEGACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
+terminal OR, AND, XOR, NOT;
 
 //no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION;
 
+
+precedence left OR;
+precedence left AND;
+precedence left XOR;
+precedence right NOT;
 precedence left COMPARACIONIGUALIGUAL, NEGACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
 precedence left MAS, MENOS;
 precedence left MULTIPLICACION, DIVISION, MODULO;
@@ -83,6 +91,10 @@ EXPRESION ::= MENOS EXPRESION:a             {:   RESULT = new Aritmeticas(a, Ope
             | EXPRESION:a MENORIGUALQUE EXPRESION:b   {:   RESULT = new Relacionales(a, b, OperadoresRelacionales.MENOR_IGUAL_QUE, aleft, aright);   :}
             | EXPRESION:a MAYORQUE EXPRESION:b   {:   RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYOR_QUE, aleft, aright);   :}
             | EXPRESION:a MAYORIGUALQUE EXPRESION:b   {:   RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYOR_IGUAL_QUE, aleft, aright);   :}
+            | NOT EXPRESION:a    {:   RESULT = new Logicos(a, OperadoresLogicos.NOT, aleft, aright);   :} %prec NOT
+            | EXPRESION:a XOR EXPRESION:b   {:   RESULT = new Logicos(a, b, OperadoresLogicos.XOR, aleft, aright);   :}
+            | EXPRESION:a AND EXPRESION:b   {:   RESULT = new Logicos(a, b, OperadoresLogicos.AND, aleft, aright);   :}
+            | EXPRESION:a OR EXPRESION:b   {:   RESULT = new Logicos(a, b, OperadoresLogicos.OR, aleft, aright);   :}
             | ENTERO:a      {:   RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright );   :}
             | DECIMAL:a     {:   RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright );   :}
             | CADENA:a      {:   RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright );   :}

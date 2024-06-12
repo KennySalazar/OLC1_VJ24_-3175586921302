@@ -107,10 +107,10 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
     "<="                {return new Symbol(sym.MENORIGUALQUE, yyline, yycolumn, yytext());}
     ">"                 {return new Symbol(sym.MAYORQUE, yyline, yycolumn, yytext());}
     ">="                {return new Symbol(sym.MAYORIGUALQUE, yyline, yycolumn, yytext());}
-    //"||"                {return new Symbol(sym.OR, yyline, yycolumn, yytext());}
-    //"&&"                {return new Symbol(sym.AND, yyline, yycolumn, yytext());}
-    //"^"                 {return new Symbol(sym.XOR, yyline, yycolumn, yytext());}
-    //"!"                 {return new Symbol(sym.NOT, yyline, yycolumn, yytext());}
+    "||"                 {return new Symbol(sym.OR, yyline, yycolumn, yytext());}
+    "&&"                {return new Symbol(sym.AND, yyline, yycolumn, yytext());}
+    "^"                 {return new Symbol(sym.XOR, yyline, yycolumn, yytext());}
+    "!"                 {return new Symbol(sym.NOT, yyline, yycolumn, yytext());}
     //"{"                 {return new Symbol(sym.LLAVEA, yyline, yycolumn, yytext());}
     //"}"                 {return new Symbol(sym.LLAVEC, yyline, yycolumn, yytext());}
     //"++"                {return new Symbol(sym.INCREMENTO, yyline, yycolumn, yytext());}

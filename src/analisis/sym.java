@@ -9,12 +9,15 @@ package analisis;
 public class sym {
   /* terminals */
   public static final int COMPARACIONIGUALIGUAL = 18;
+  public static final int AND = 25;
   public static final int MENOS = 12;
   public static final int MULTIPLICACION = 14;
   public static final int CADENA = 2;
+  public static final int OR = 24;
   public static final int FINCADENA = 7;
   public static final int DECIMAL = 4;
   public static final int DIVISION = 15;
+  public static final int NOT = 27;
   public static final int NEGACION = 19;
   public static final int POTENCIA = 16;
   public static final int MAYORQUE = 22;
@@ -29,6 +32,7 @@ public class sym {
   public static final int error = 1;
   public static final int PAR2 = 10;
   public static final int PAR1 = 9;
+  public static final int XOR = 26;
   public static final int ENTERO = 3;
   public static final int MAYORIGUALQUE = 23;
   public static final int MAS = 11;
@@ -56,7 +60,11 @@ public class sym {
   "MENORQUE",
   "MENORIGUALQUE",
   "MAYORQUE",
-  "MAYORIGUALQUE"
+  "MAYORIGUALQUE",
+  "OR",
+  "AND",
+  "XOR",
+  "NOT"
   };
 }
 
