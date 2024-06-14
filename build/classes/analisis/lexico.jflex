@@ -2,10 +2,12 @@ package analisis;
 
 //importaciones
 import java_cup.runtime.Symbol;
-
+import java.util.LinkedList;
+import excepciones.Errores;
 %%
 
-//definicion de variables
+//cogido en el que se puede acceder, si es publico
+//Codigo de usuario
 %{
 
   private Symbol symbol(int type) {
@@ -21,12 +23,16 @@ import java_cup.runtime.Symbol;
 
   }
     String cadena = "";
+
+  public LinkedList<Errores> listaErrores = new LinkedList<>();
+
 %}
 
 // Definiciones iniciales
 %init{
     yyline = 1;
     yycolumn = 1;
+    listaErrores = new LinkedList<>();
 %init}
 
 //declaraciones de caracteristicas de jflex
@@ -46,7 +52,7 @@ ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
 //CADENA = \"[^\"]*\"
 CADENA = \"([^\"\\]|\\[tnr'\"\\])*\"
-//ID = [a-zA-Z]+[0-9]*
+ID = [a-zA-Z]+[a-zA-Z0-9_]*
 COMENTARIO1 =  [\/][\/][^\n]*
 COMENTARIO2 = [/*]([^*]|\*+[^*/])*\*+[/]
 CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
@@ -58,12 +64,13 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
 
 
     //"imprimir"          {return new Symbol(sym.IMPRIMIR, yyline, yycolumn, yytext());}
-   // "var"               {return new Symbol(sym.VAR, yyline, yycolumn, yytext());}
-   // "int"               {return new Symbol(sym.INT, yyline, yycolumn, yytext());}
-   // "string"            {return new Symbol(sym.STRING, yyline, yycolumn, yytext());}
-   // "const"             {return new Symbol(sym.CONST, yyline, yycolumn, yytext());}
-   // "double"            {return new Symbol(sym.DOUBLE, yyline, yycolumn, yytext());}
-   // "char"              {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());}
+   "var"               {return new Symbol(sym.VAR, yyline, yycolumn, yytext());}
+   "const"             {return new Symbol(sym.CONST, yyline, yycolumn, yytext());}
+   "int"               {return new Symbol(sym.INT, yyline, yycolumn, yytext());}
+   "string"            {return new Symbol(sym.STRING, yyline, yycolumn, yytext());}
+   "double"            {return new Symbol(sym.DOUBLE, yyline, yycolumn, yytext());}
+   "char"              {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());}
+   "bool"              {return new Symbol(sym.BOOL, yyline, yycolumn, yytext());}
     //"if"                {return new Symbol(sym.IF, yyline, yycolumn, yytext());}
     //"else"              {return new Symbol(sym.ELSE, yyline, yycolumn, yytext());}
     //"match"             {return new Symbol(sym.MATCH, yyline, yycolumn, yytext());}
@@ -77,10 +84,10 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
     "false"              {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext());}
 
 
-
+    {ID}                {return new Symbol(sym.ID, yyline, yycolumn, yytext());}
     {DECIMAL}           {return new Symbol(sym.DECIMAL, yyline, yycolumn, yytext());} 
     {ENTERO}            {return new Symbol(sym.ENTERO, yyline, yycolumn, yytext());}
-    //{ID}                {return new Symbol(sym.ID, yyline, yycolumn, yytext());}
+    
     {COMENTARIO1}           {}
     {COMENTARIO2}           {}
     //true {return new Symbol(sym.true, yychar, yyline,yytext());}
@@ -88,7 +95,9 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
     
 
        
-
+    "++"                {return new Symbol(sym.INCREMENTO, yyline, yycolumn, yytext());}
+    "--"                {return new Symbol(sym.DECREMENTO, yyline, yycolumn, yytext());}
+    
     ";"                 {return new Symbol(sym.FINCADENA, yyline, yycolumn, yytext());}
     "+"                 {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}
     "-"                 {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}
@@ -98,10 +107,10 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
     ")"                 {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}
     "**"                {return new Symbol(sym.POTENCIA, yyline, yycolumn, yytext());}
     "%"                 {return new Symbol(sym.MODULO, yyline, yycolumn, yytext());}
-    //":"                 {return new Symbol(sym.DOSPUNTOS, yyline, yycolumn, yytext());}
+   ":"                 {return new Symbol(sym.DOSPUNTOS, yyline, yycolumn, yytext());}
    // ";"                 {return new Symbol(sym.PCOMA, yyline, yycolumn, yytext());}
     "=="                {return new Symbol(sym.COMPARACIONIGUALIGUAL, yyline, yycolumn, yytext());}
-    //"="                {return new Symbol(sym.ASIGNACION, yyline, yycolumn, yytext());}
+    "="                 {return new Symbol(sym.IGUAL, yyline, yycolumn, yytext());}
     "!="                {return new Symbol(sym.NEGACION, yyline, yycolumn, yytext());}
     "<"                 {return new Symbol(sym.MENORQUE, yyline, yycolumn, yytext());}
     "<="                {return new Symbol(sym.MENORIGUALQUE, yyline, yycolumn, yytext());}
@@ -113,17 +122,26 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
     "!"                 {return new Symbol(sym.NOT, yyline, yycolumn, yytext());}
     //"{"                 {return new Symbol(sym.LLAVEA, yyline, yycolumn, yytext());}
     //"}"                 {return new Symbol(sym.LLAVEC, yyline, yycolumn, yytext());}
-    //"++"                {return new Symbol(sym.INCREMENTO, yyline, yycolumn, yytext());}
-    //"--"                {return new Symbol(sym.DECREMENTO, yyline, yycolumn, yytext());}
-    
+   
 
 
 
     {CADENA} {
     String cadena = yytext();
     cadena = cadena.substring(1, cadena.length()-1);
+    
+
+    cadena = cadena.replaceAll("\\\\n", "\n"); 
+    cadena = cadena.replaceAll("\\\\t", "\t"); 
+    cadena = cadena.replaceAll("\\\\r", "\r"); 
+    cadena = cadena.replaceAll("\\\\'", "\'"); 
+    cadena = cadena.replaceAll("\\\\\"", "\""); 
+    cadena = cadena.replaceAll("\\\\\\\\", "\\\\"); 
+
     return new Symbol(sym.CADENA, yyline, yycolumn,cadena);
     }
+
+
     {CARACTER} {
     String caracter = yytext();
     caracter = caracter.substring(1, caracter.length()-1);
@@ -138,11 +156,11 @@ CARACTER = \'([^\'\\]|\\[ntr'\"\\])\'
 
 
 /* cualquier simbolo que no este declarado sera un error*/
-[^]                           
-			{  throw new
-                            Error("Simbolo ilegal <"+ yytext()+">");
-                                
-                        }
+<YYINITIAL> . {
+                listaErrores.add(new Errores("LEXICO","El caracter "+
+                yytext()+" NO pertenece al lenguaje", yyline, yycolumn));
+}
+
 <<EOF>>                 { return symbol(sym.EOF); }
 
 

@@ -4,26 +4,57 @@
  */
 package simbolo;
 
+import static simbolo.tipoDato.BOOLEANO;
+import static simbolo.tipoDato.CADENA;
+import static simbolo.tipoDato.CARACTER;
+import static simbolo.tipoDato.DECIMAL;
+import static simbolo.tipoDato.ENTERO;
+
 /**
  *
  * @author Kenny Salazar
  */
 public class Simbolo {
+
     private Tipo tipo;
     private String id;
     private Object valor;
+    private boolean mutabilidad; 
 
-    public Simbolo(Tipo tipo, String id) {
+    // Constructor con tipo e id, establece el valor por defecto
+    public Simbolo(Tipo tipo, String id, boolean mutabilidad) {
         this.tipo = tipo;
         this.id = id;
+        this.mutabilidad = mutabilidad;
+        this.valor = getDefaultValor(tipo); // Establecer valor por defecto según el tipo
     }
 
-    public Simbolo(Tipo tipo, String id, Object valor) {
+    // Constructor con tipo, id y valor
+    public Simbolo(Tipo tipo, String id, Object valor, boolean mutabilidad) {
         this.tipo = tipo;
         this.id = id;
         this.valor = valor;
+        this.mutabilidad = mutabilidad;
     }
 
+    public static Object getDefaultValor(Tipo tipo) {
+        switch (tipo.getTipo()) {
+            case ENTERO:
+                return 0;
+            case CADENA:
+                return "";
+            case BOOLEANO:
+                return true;
+            case CARACTER:
+                return '\u0000';
+            case DECIMAL:
+                return 0.0f;
+            default:
+                return null;
+        }
+    }
+
+    // Getters y Setters
     public Tipo getTipo() {
         return tipo;
     }
@@ -45,8 +76,18 @@ public class Simbolo {
     }
 
     public void setValor(Object valor) {
-        this.valor = valor;
+        if (mutabilidad) {
+            this.valor = valor;
+        } else {
+            throw new UnsupportedOperationException("No se puede modificar una variable const");
+        }
     }
-    
-    
+
+    public boolean isMutable() {
+        return mutabilidad;
+    }
+
+    public void setMutabilidad(boolean mutabilidad) {
+        this.mutabilidad = mutabilidad;
+    }
 }
