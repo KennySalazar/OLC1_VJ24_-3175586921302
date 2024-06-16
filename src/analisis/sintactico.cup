@@ -229,7 +229,7 @@ EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, Operador
             | DECIMAL:a {: RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright ); :}
             | CADENA:a {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright ); :}
             | CARACTER:a {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER), aleft, aright ); :}
-            | BOOLEANO:a {: RESULT = new Nativo(a, new Tipo(tipoDato.BOOLEANO), aleft, aright ); :}
+            | BOOLEANO:a {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright ); :}
             | PAR1 EXPRESION:a PAR2 {: RESULT = a; :}
             | ID:a {: RESULT = new AccesoVariable(a, aleft, aright); :}
          

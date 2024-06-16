@@ -369,7 +369,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
                         lista.add((Errores) res);
                     }
                 }
-            
+                
                 this.jTextArea2.setText(ast.getConsola());
                 for (var i : lista) {
                     System.out.println(i);

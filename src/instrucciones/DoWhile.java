@@ -48,6 +48,7 @@ public class DoWhile extends Instruccion {
             return new Errores("SEMANTICO", "La condicion debe ser bool", this.linea, this.col);
         }
 
+         
         do {
             // Nuevo entorno
             var newTabla2 = new tablaSimbolos(newTabla);

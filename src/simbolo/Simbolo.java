@@ -48,7 +48,7 @@ public class Simbolo {
             case CARACTER:
                 return '\u0000';
             case DECIMAL:
-                return 0.0f;
+                return 0.0;
             default:
                 return null;
         }
