@@ -16,7 +16,7 @@ import simbolo.tipoDato;
  * @author Kenny Salazar
  */
 public class Casteo extends Instruccion {
-    
+
     private Instruccion expresion;
     private Tipo tipoDestino;
 
@@ -52,10 +52,18 @@ public class Casteo extends Instruccion {
                     break;
 
                 case CARACTER:
-                    if (tipoDestino.getTipo() == tipoDato.ENTERO) {
-                        return (int) ((Character) valorInterpretado).charValue();
-                    } else if (tipoDestino.getTipo() == tipoDato.DECIMAL) {
-                        return (double) ((Character) valorInterpretado).charValue();
+                    if (valorInterpretado instanceof String) {
+                        String valorStr = (String) valorInterpretado;
+                        if (valorStr.length() == 1) {
+                            char charValue = valorStr.charAt(0);
+                            if (tipoDestino.getTipo() == tipoDato.ENTERO) {
+                                return (int) charValue;
+                            } else if (tipoDestino.getTipo() == tipoDato.DECIMAL) {
+                                return (double) charValue;
+                            }
+                        } else {
+                            return new Errores("SEMANTICO", "Casteo inválido: no se estas mandado un solo caracter", this.linea, this.col);
+                        }
                     }
                     break;
 
@@ -66,6 +74,6 @@ public class Casteo extends Instruccion {
             return new Errores("SEMANTICO", "Error en el casteo: " + e.getMessage(), this.linea, this.col);
         }
 
-        return new Errores("SEMANTICO", "Casteo inválido desde " + tipoOrigen.getTipo() + " a " + tipoDestino.getTipo(), this.linea, this.col);
+        return new Errores("SEMANTICO", "Casteo invalido desde " + tipoOrigen.getTipo() + " a " + tipoDestino.getTipo(), this.linea, this.col);
     }
 }

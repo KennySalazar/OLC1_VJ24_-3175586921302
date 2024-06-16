@@ -4,6 +4,7 @@
  */
 package instrucciones;
 
+import Reportes.TablaSimbolosReporte;
 import abstracto.Instruccion;
 import excepciones.Errores;
 import simbolo.Arbol;
@@ -21,7 +22,6 @@ public class Declaracion extends Instruccion {
     private String identificador;
     private Instruccion valor;
     private boolean mutabilidad;
-   
 
     // Constructor con mutabilidad, identificador y tipo
     public Declaracion(String identificador, Tipo tipo, boolean mutabilidad, int linea, int col) {
@@ -40,9 +40,8 @@ public class Declaracion extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // Interpretar la expresión si se proporciona
+        // Interpretar la expresion si se proporciona
         Object valorInterpretado = valor != null ? this.valor.interpretar(arbol, tabla) : getDefaultValor(this.tipo);
-        
 
         // Validar errores
         if (valorInterpretado instanceof Errores) {
@@ -60,8 +59,13 @@ public class Declaracion extends Instruccion {
         boolean creacion = tabla.crearVariable(s);
         if (!creacion) {
             return new Errores("SEMANTICO", "La variable " + identificador + " ya existe ", this.linea, this.col);
+        } else {
+            // Verificar si la variable ya esta en la tabla de reportes
+            if (!arbol.isVariableReported(s.getId(), tabla.getNombre(),"" + this.linea, "" + this.col)) {
+                String tipo1 = s.isMutable()? "variable" : "constante";
+                arbol.getListaReportes().add(new TablaSimbolosReporte(s.getId(), tipo1, s.getTipo().getTipo().toString(), tabla.getNombre(), s.getValor().toString(), "" + this.linea, "" + this.col));
+            }
         }
-
         return null;
     }
 }

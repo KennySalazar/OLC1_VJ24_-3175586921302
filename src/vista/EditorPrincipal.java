@@ -4,10 +4,12 @@
  */
 package com.mycompany.proyecto_compi1.vista;
 
+import Reportes.TablaSimbolosReporte;
 import abstracto.Instruccion;
 import analisis.parser;
 import analisis.scanner;
 import excepciones.Errores;
+import instrucciones.Declaracion;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,13 +19,16 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JFileChooser;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
+import javax.swing.table.DefaultTableModel;
 
 import javax.swing.text.JTextComponent;
 import simbolo.Arbol;
@@ -72,6 +77,13 @@ public class EditorPrincipal extends javax.swing.JFrame {
         entradaTabbed = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TablaErrores = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaSimbolos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 51, 0));
@@ -215,15 +227,85 @@ public class EditorPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Pestaña", jPanel3);
 
+        TablaErrores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "No. ", "Tipo", "Descripción", "Linea", "Columna"
+            }
+        ));
+        jScrollPane3.setViewportView(TablaErrores);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("tab1", jPanel4);
+
+        tablaSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaSimbolos);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("tab2", jPanel7);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 545, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Reportes", jPanel6);
@@ -273,6 +355,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 var tabla = new tablaSimbolos();
                 tabla.setNombre("GLOBAL");
                 ast.setConsola("");
+                LinkedList<TablaSimbolosReporte> listaReporSimbolos = new LinkedList<>();
                 LinkedList<Errores> lista = new LinkedList<>();
                 lista.addAll(s.listaErrores);
                 lista.addAll(p.listaErrores);
@@ -286,11 +369,17 @@ public class EditorPrincipal extends javax.swing.JFrame {
                         lista.add((Errores) res);
                     }
                 }
-                //System.out.println(ast.getConsola());
+            
                 this.jTextArea2.setText(ast.getConsola());
-                 for (var i : lista) {
-                System.out.println(i);
-            }
+                for (var i : lista) {
+                    System.out.println(i);
+                }
+                 
+                    llenarTablaErrores(lista, TablaErrores);
+                    llenarTablaSimbolos(ast.getListaReportes(), tablaSimbolos);
+                    
+                
+
             } catch (Exception ex) {
                 this.jTextArea2.setText("ALGO SALIO MAL\n " + ex);
                 System.out.println("Algo salio mal");
@@ -347,12 +436,81 @@ public class EditorPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this.jPanel2, "Ha ocurrido un error al intentar leer el archivo");
         }
     }
+
+    public void llenarTablaErrores(LinkedList<Errores> listaEr, JTable tablaE) {
+
+        try {
+            DefaultTableModel tabla1 = new DefaultTableModel();
+            String[] columna = new String[5];
+
+            tabla1.addColumn("No.");
+            tabla1.addColumn("Tipo");
+            tabla1.addColumn("Descripcion");
+            tabla1.addColumn("Linea");
+            tabla1.addColumn("Columna");
+
+            int i = 1;
+            for (Errores er : listaEr) {
+                columna[0] = "" + i;
+                columna[1] = er.getTipo();
+                columna[2] = er.getDesc();
+                columna[3] = "" + er.getLinea();
+                columna[4] = "" + er.getColumna();
+
+                tabla1.addRow(columna);
+                i++;
+                
+                
+            }
+
+            tablaE.setModel(tabla1);
+        } catch (NullPointerException e) {
+        }
+
+    }
+
+    public void llenarTablaSimbolos(LinkedList<TablaSimbolosReporte> listaSim, JTable tablaE) {
+
+        try {
+            DefaultTableModel tabla1 = new DefaultTableModel();
+            String[] columna = new String[8];
+
+            tabla1.addColumn("No.");
+            tabla1.addColumn("ID");
+            tabla1.addColumn("Mutabilidad");
+            tabla1.addColumn("Tipo");
+            tabla1.addColumn("Entorno");
+            tabla1.addColumn("Valor");
+            tabla1.addColumn("Linea");
+            tabla1.addColumn("Columna");
+
+            int i = 1;
+            for (TablaSimbolosReporte s : listaSim) {
+                columna[0] = "" + i;
+                columna[1] = s.getId();
+                columna[2] = s.getTipo1();
+                columna[3] = s.getTipo2();
+                columna[4] = s.getEntorno();
+                columna[5] = s.getValor();
+                columna[6] = s.getLinea();
+                columna[7] = s.getColumna();
+
+                tabla1.addRow(columna);
+                i++;
+            }
+
+            tablaE.setModel(tabla1);
+        } catch (NullPointerException e) {
+        }
+
+    }
     /**
      * @param args the command line arguments
      */
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaErrores;
     private javax.swing.JButton btEjecutar;
     private javax.swing.JButton btnCargaArchivo;
     private javax.swing.JTabbedPane entradaTabbed;
@@ -362,10 +520,16 @@ public class EditorPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTable tablaSimbolos;
     // End of variables declaration//GEN-END:variables
 }

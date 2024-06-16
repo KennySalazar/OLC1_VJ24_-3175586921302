@@ -4,6 +4,7 @@
  */
 package simbolo;
 
+import Reportes.TablaSimbolosReporte;
 import abstracto.Instruccion;
 import excepciones.Errores;
 import java.util.LinkedList;
@@ -18,12 +19,14 @@ public class Arbol {
     private String consola;
     private tablaSimbolos tablaGlobal;
     private LinkedList<Errores> errores;
+     private LinkedList<TablaSimbolosReporte> listaReportes;
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
         this.consola = "";
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
+        this.listaReportes = new LinkedList<>();
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
@@ -61,5 +64,23 @@ public class Arbol {
     public void Print(String valor) {
         this.consola += valor + "\n";
     }
+
+    public LinkedList<TablaSimbolosReporte> getListaReportes() {
+        return listaReportes;
+    }
+
+    public void setListaReportes(LinkedList<TablaSimbolosReporte> listaReportes) {
+        this.listaReportes = listaReportes;
+    }
+    
+    public boolean isVariableReported(String id, String entorno, String linea, String columna) {
+    for (TablaSimbolosReporte reporte : this.getListaReportes()) {
+        if (reporte.getId().equals(id) && reporte.getEntorno().equals(entorno)
+                && reporte.getLinea().equals(linea) && reporte.getColumna().equals(columna)) {
+            return true;
+        }
+    }
+    return false;
+}
 
 }

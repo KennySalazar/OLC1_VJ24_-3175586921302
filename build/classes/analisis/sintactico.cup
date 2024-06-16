@@ -14,6 +14,14 @@ import instrucciones.Declaracion;
 import instrucciones.AsignacionVariable;
 import instrucciones.Casteo;
 import instrucciones.IncrementoDecremento;
+import instrucciones.If;
+import instrucciones.Match;
+import instrucciones.Caso;
+import instrucciones.For;
+import instrucciones.While;
+import instrucciones.DoWhile;
+import instrucciones.Break;
+import instrucciones.Continue;
 
 // Expresiones
 import expresiones.Nativo;
@@ -60,12 +68,21 @@ terminal PAR1, PAR2, MAS, MENOS, UMENOS, MULTIPLICACION, DIVISION, POTENCIA, MOD
 terminal COMPARACIONIGUALIGUAL, NEGACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
 terminal IGUAL, DOSPUNTOS;
 terminal OR, AND, XOR, NOT;
+terminal LLAVEA, LLAVEC, IF, ELSE;
+terminal MATCH, SIGNOCASOMATCH, SIGNODEFAULTMATCH;
+terminal FOR, WHILE, DO;
+terminal String BREAK, CONTINUE;
+terminal CAS;
 
 
 // No Terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
-nonterminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
+nonterminal Instruccion IMPRESION, DECLARACION, ASIGNACION, INCREMENTOA, DECREMENTOA;
+nonterminal Instruccion SIF, SMATCH;
+nonterminal Instruccion CFOR, ACTUALIZA_FOR, CWHILE, CDOWHILE, BREAKK, CONTINUEA;
+nonterminal LinkedList<Caso> CASOS;
+nonterminal Caso CASO, DEFAULTCASO;
 nonterminal Tipo TIPOS;
 nonterminal Instruccion EXPRESION;
 
@@ -79,7 +96,8 @@ precedence left MAS, MENOS;
 precedence left MULTIPLICACION, DIVISION, MODULO;
 precedence nonassoc POTENCIA;
 precedence right UMENOS;
-precedence left INCREMENTO, DECREMENTO;
+precedence right CAS;
+
 
 start with INICIO;
 
@@ -93,7 +111,16 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
 INSTRUCCION ::= IMPRESION:a    {: RESULT = a; :}
               | DECLARACION:a       {:   RESULT=a;   :}
               | ASIGNACION:a        {:   RESULT=a;   :}
+              | DECREMENTOA:a        {:   RESULT=a;   :}
+              | INCREMENTOA:a         {:   RESULT=a;   :}
               | EXPRESION: a        {:   RESULT=a;   :}
+              | SIF:a               {:   RESULT=a;   :}
+              | SMATCH:a               {:   RESULT=a;   :}
+              | CFOR:a               {:   RESULT=a;   :}
+              | CWHILE:a       {:   RESULT=a;   :}
+              | CDOWHILE:a       {:   RESULT=a;   :}
+              | BREAKK:a       {:   RESULT=a;   :}
+              | CONTINUEA:a       {:   RESULT=a;   :}
               | error FINCADENA
               | error
 ;
@@ -113,6 +140,65 @@ DECLARACION ::=   VAR ID:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA {: RESU
 ASIGNACION ::= ID:a IGUAL EXPRESION:b FINCADENA  {:   RESULT=new AsignacionVariable(a, b, aleft, aright);  :}
 ;
 
+SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVEA INSTRUCCIONES:b LLAVEC  {:   RESULT = new If(a, b, aleft, aright);   :}
+    | IF PAR1 EXPRESION:a PAR2 LLAVEA INSTRUCCIONES:b LLAVEC  ELSE LLAVEA INSTRUCCIONES:c LLAVEC {:   RESULT = new If(a, b, c, aleft, aright);   :}
+    | IF PAR1 EXPRESION:a PAR2 LLAVEA INSTRUCCIONES:b LLAVEC  ELSE SIF:c {:   RESULT = new If(a, b, c, aleft, aright);   :}
+;
+
+SMATCH ::=
+    MATCH EXPRESION:a LLAVEA CASOS:b LLAVEC
+        {: RESULT = new Match(a, b, aleft, aright); :}
+    | MATCH EXPRESION:a LLAVEA CASOS:b DEFAULTCASO:c LLAVEC
+        {: RESULT = new Match(a, b, c, aleft, aright); :}
+    | MATCH EXPRESION:a LLAVEA DEFAULTCASO:c LLAVEC
+        {: LinkedList<Caso> casos = new LinkedList<>();
+           RESULT = new Match(a, casos, c, aleft, aright); :}
+    ;
+
+CASOS ::=
+    CASOS:a CASO:b
+        {: RESULT = a; RESULT.add(b); :}
+    | CASO:a
+        {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+    ;
+
+CASO ::=
+    EXPRESION:a SIGNOCASOMATCH LLAVEA INSTRUCCIONES:b LLAVEC
+        {: RESULT = new Caso(a, b, false, aleft, aright); :}
+    ;
+
+DEFAULTCASO ::=
+    SIGNODEFAULTMATCH LLAVEA INSTRUCCIONES:b LLAVEC
+        {: RESULT = new Caso(null, b, true, bleft, bright); :}
+    ;
+
+
+CFOR ::= FOR PAR1 ASIGNACION:a EXPRESION:b FINCADENA ACTUALIZA_FOR:c PAR2 LLAVEA INSTRUCCIONES:d LLAVEC  {:   RESULT = new For(a, b, c, d, aleft, aright);   :}
+;
+
+ACTUALIZA_FOR ::= ID:a IGUAL EXPRESION:b {:   RESULT=new AsignacionVariable(a, b, aleft, aright);  :} 
+                | ID:a INCREMENTO  {: RESULT = new IncrementoDecremento(a, true, aleft, aright); :} 
+                | ID:a DECREMENTO  {: RESULT = new IncrementoDecremento(a, false, aleft, aright); :}
+                
+;
+
+CWHILE ::= WHILE EXPRESION:a  LLAVEA INSTRUCCIONES:b LLAVEC {: RESULT = new While(a,b, aleft, aright); :}
+
+;
+
+CDOWHILE ::=  DO LLAVEA INSTRUCCIONES:a LLAVEC WHILE EXPRESION:b FINCADENA {: RESULT = new DoWhile(b,a,bleft, bright); :}
+
+;
+
+BREAKK ::=  BREAK:a FINCADENA {:RESULT = new Break(aleft, aright); :}
+
+;
+
+CONTINUEA ::= CONTINUE:a FINCADENA {:RESULT = new Continue(aleft, aright); :}
+
+;
+
+
 TIPOS ::= INT    {: RESULT = new Tipo(tipoDato.ENTERO); :}
         | DOUBLE {: RESULT = new Tipo(tipoDato.DECIMAL); :}
         | STRING {: RESULT = new Tipo(tipoDato.CADENA); :}
@@ -122,9 +208,7 @@ TIPOS ::= INT    {: RESULT = new Tipo(tipoDato.ENTERO); :}
 ;
 
 EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
-            | PAR1 TIPOS:b PAR2 EXPRESION:a  {: RESULT = new Casteo(a, b, aleft, aright); :}
-            | ID:a INCREMENTO FINCADENA {: RESULT = new IncrementoDecremento(a, true, aleft, aright); :}
-            | ID:a DECREMENTO FINCADENA {: RESULT = new IncrementoDecremento(a, false, aleft, aright); :}
+            | PAR1 TIPOS:b PAR2 EXPRESION:a  {: RESULT = new Casteo(a, b, aleft, aright); :} %prec CAS
             | EXPRESION:a MAS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
             | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); :}
             | EXPRESION:a MULTIPLICACION EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
@@ -150,3 +234,14 @@ EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, Operador
             | ID:a {: RESULT = new AccesoVariable(a, aleft, aright); :}
          
 ;
+
+
+INCREMENTOA ::= ID:a INCREMENTO FINCADENA {: RESULT = new IncrementoDecremento(a, true, aleft, aright); :}
+
+;
+
+DECREMENTOA ::=  ID:a DECREMENTO FINCADENA {: RESULT = new IncrementoDecremento(a, false, aleft, aright); :}
+
+;
+
+
