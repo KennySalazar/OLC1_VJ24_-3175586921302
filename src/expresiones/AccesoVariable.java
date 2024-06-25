@@ -21,14 +21,14 @@ public class AccesoVariable extends Instruccion {
     private String id;
     private Tipo tipoDestino;
 
-    // Constructor original
+    
     public AccesoVariable(String id, int linea, int col) {
         super(new Tipo(tipoDato.VOID), linea, col);
         this.id = id;
         this.tipoDestino = null;
     }
 
-    // Nuevo constructor para incluir el tipo destino del casteo
+    
     public AccesoVariable(String id, Tipo tipoDestino, int linea, int col) {
         super(new Tipo(tipoDato.VOID), linea, col);
         this.id = id;

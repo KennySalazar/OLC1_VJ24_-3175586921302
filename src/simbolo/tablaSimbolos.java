@@ -6,6 +6,7 @@ package simbolo;
 
 import java.util.HashMap;
 
+
 /**
  *
  * @author Kenny Salazar
@@ -69,6 +70,25 @@ public class tablaSimbolos {
             Simbolo busqueda = (Simbolo) i.tablaActual.
                     get(id.toLowerCase());
             if (busqueda != null) {
+                return busqueda;
+            }
+        }
+        return null;
+    }
+
+    public boolean crearArreglo(Simbolo simbolo) {
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());
+        if (busqueda == null) {
+            this.tablaActual.put(simbolo.getId().toLowerCase(), simbolo);
+            return true;
+        }
+        return false;
+    }
+
+    public Simbolo obtenerVector(String id) {
+        for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {
+            Simbolo busqueda = (Simbolo) i.tablaActual.get(id.toLowerCase());
+            if (busqueda != null && busqueda.getValor() instanceof Object[]) {
                 return busqueda;
             }
         }

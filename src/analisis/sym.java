@@ -16,8 +16,10 @@ public class sym {
   public static final int ENTERO = 3;
   public static final int CAS = 52;
   public static final int XOR = 38;
+  public static final int CORCHETEC = 55;
   public static final int DOUBLE = 13;
   public static final int CONTINUE = 51;
+  public static final int CORCHETEA = 54;
   public static final int INT = 14;
   public static final int PRINTLN = 11;
   public static final int FOR = 47;
@@ -40,15 +42,18 @@ public class sym {
   public static final int MAYORIGUALQUE = 33;
   public static final int DECREMENTO = 9;
   public static final int error = 1;
+  public static final int COMA = 53;
   public static final int CADENA = 2;
   public static final int MODULO = 27;
   public static final int NEGACION = 29;
   public static final int MENOS = 22;
   public static final int BREAK = 50;
+  public static final int VOID = 56;
   public static final int MENORQUE = 30;
   public static final int POTENCIA = 26;
   public static final int ELSE = 43;
   public static final int SIGNODEFAULTMATCH = 46;
+  public static final int START_WITH = 57;
   public static final int WHILE = 48;
   public static final int COMPARACIONIGUALIGUAL = 28;
   public static final int BOOLEANO = 6;
@@ -114,7 +119,12 @@ public class sym {
   "DO",
   "BREAK",
   "CONTINUE",
-  "CAS"
+  "CAS",
+  "COMA",
+  "CORCHETEA",
+  "CORCHETEC",
+  "VOID",
+  "START_WITH"
   };
 }
 

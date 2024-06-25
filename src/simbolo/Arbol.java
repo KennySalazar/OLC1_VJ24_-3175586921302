@@ -7,6 +7,7 @@ package simbolo;
 import Reportes.TablaSimbolosReporte;
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.Metodo;
 import java.util.LinkedList;
 
 /**
@@ -19,7 +20,8 @@ public class Arbol {
     private String consola;
     private tablaSimbolos tablaGlobal;
     private LinkedList<Errores> errores;
-     private LinkedList<TablaSimbolosReporte> listaReportes;
+    private LinkedList<TablaSimbolosReporte> listaReportes;
+    private LinkedList<Instruccion> funciones;
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -27,6 +29,7 @@ public class Arbol {
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
         this.listaReportes = new LinkedList<>();
+        this.funciones = new LinkedList<>();
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
@@ -72,15 +75,40 @@ public class Arbol {
     public void setListaReportes(LinkedList<TablaSimbolosReporte> listaReportes) {
         this.listaReportes = listaReportes;
     }
-    
+
     public boolean isVariableReported(String id, String entorno, String linea, String columna) {
-    for (TablaSimbolosReporte reporte : this.getListaReportes()) {
-        if (reporte.getId().equals(id) && reporte.getEntorno().equals(entorno)
-                && reporte.getLinea().equals(linea) && reporte.getColumna().equals(columna)) {
-            return true;
+        for (TablaSimbolosReporte reporte : this.getListaReportes()) {
+            if (reporte.getId().equals(id) && reporte.getEntorno().equals(entorno)
+                    && reporte.getLinea().equals(linea) && reporte.getColumna().equals(columna)) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
+
+    public LinkedList<Instruccion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(LinkedList<Instruccion> funciones) {
+        this.funciones = funciones;
+    }
+
+    public void addFunciones(Instruccion funcion) {
+        
+        //llamara  getFuncion y validar que no venga con el mismo nombre, si el null que agregue sino es porque esa funcion ya existe
+        this.funciones.add(funcion);
+    }
+
+    public Instruccion getFuncion(String id) {
+        for (var i : this.funciones) {
+            if (i instanceof Metodo metodo) {
+                if (metodo.id.equalsIgnoreCase(id)) {
+                    return i;
+                }
+            }
+        }
+        return null;
+    }
 
 }

@@ -7,6 +7,7 @@ import abstracto.Instruccion;
 import simbolo.Tipo;
 import simbolo.tipoDato;
 import excepciones.Errores;
+import java.util.HashMap;
 
 // Instrucciones
 import instrucciones.Print;
@@ -22,6 +23,10 @@ import instrucciones.While;
 import instrucciones.DoWhile;
 import instrucciones.Break;
 import instrucciones.Continue;
+import instrucciones.DeclaracionVector;
+import instrucciones.AsignacionVector;
+import instrucciones.Metodo;
+import instrucciones.StartWith;
 
 // Expresiones
 import expresiones.Nativo;
@@ -32,6 +37,7 @@ import expresiones.OperadoresAritmeticos;
 import expresiones.OperadoresRelacionales;
 import expresiones.OperadoresLogicos;
 import expresiones.AccesoVariable;
+import expresiones.AccesoVector;
 
 // Parser
 parser code
@@ -73,6 +79,8 @@ terminal MATCH, SIGNOCASOMATCH, SIGNODEFAULTMATCH;
 terminal FOR, WHILE, DO;
 terminal String BREAK, CONTINUE;
 terminal CAS;
+terminal COMA, CORCHETEA, CORCHETEC;
+terminal VOID, START_WITH;
 
 
 // No Terminales
@@ -83,8 +91,16 @@ nonterminal Instruccion SIF, SMATCH;
 nonterminal Instruccion CFOR, ACTUALIZA_FOR, CWHILE, CDOWHILE, BREAKK, CONTINUEA;
 nonterminal LinkedList<Caso> CASOS;
 nonterminal Caso CASO, DEFAULTCASO;
+nonterminal Instruccion DECLARACION_VECTOR;
+nonterminal LinkedList<Instruccion> LISTAVALORESUNI; 
+nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORESBI; 
 nonterminal Tipo TIPOS;
 nonterminal Instruccion EXPRESION;
+nonterminal Instruccion ASIGNAR_MODIFICAR_VECTOR;
+nonterminal Instruccion METODO;
+nonterminal LinkedList<HashMap> PARAMS;
+nonterminal Instruccion RUN;
+nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
 
 
 precedence left OR;
@@ -108,19 +124,23 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
                 | INSTRUCCION:a                 {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 
-INSTRUCCION ::= IMPRESION:a    {: RESULT = a; :}
-              | DECLARACION:a       {:   RESULT=a;   :}
-              | ASIGNACION:a        {:   RESULT=a;   :}
-              | DECREMENTOA:a        {:   RESULT=a;   :}
-              | INCREMENTOA:a         {:   RESULT=a;   :}
-              | EXPRESION: a        {:   RESULT=a;   :}
-              | SIF:a               {:   RESULT=a;   :}
-              | SMATCH:a               {:   RESULT=a;   :}
-              | CFOR:a               {:   RESULT=a;   :}
-              | CWHILE:a       {:   RESULT=a;   :}
-              | CDOWHILE:a       {:   RESULT=a;   :}
-              | BREAKK:a       {:   RESULT=a;   :}
-              | CONTINUEA:a       {:   RESULT=a;   :}
+INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
+              | DECLARACION:a           {:   RESULT=a;   :}
+              | ASIGNACION:a            {:   RESULT=a;   :}
+              | DECREMENTOA:a           {:   RESULT=a;   :}
+              | INCREMENTOA:a           {:   RESULT=a;   :}
+              | EXPRESION: a            {:   RESULT=a;   :}
+              | SIF:a                   {:   RESULT=a;   :}
+              | SMATCH:a                {:   RESULT=a;   :}
+              | CFOR:a                  {:   RESULT=a;   :}
+              | CWHILE:a                {:   RESULT=a;   :}
+              | CDOWHILE:a              {:   RESULT=a;   :}
+              | BREAKK:a                {:   RESULT=a;   :}
+              | CONTINUEA:a             {:   RESULT=a;   :}
+              | DECLARACION_VECTOR:a    {:   RESULT=a;   :}
+              | ASIGNAR_MODIFICAR_VECTOR :a    {:   RESULT=a;   :}
+              | METODO:a                {:   RESULT=a;   :}
+              | RUN:a                   {:   RESULT=a;   :}
               | error FINCADENA
               | error
 ;
@@ -204,9 +224,74 @@ TIPOS ::= INT    {: RESULT = new Tipo(tipoDato.ENTERO); :}
         | STRING {: RESULT = new Tipo(tipoDato.CADENA); :}
         | CHAR {: RESULT = new Tipo(tipoDato.CARACTER); :}
         | BOOL {: RESULT = new Tipo(tipoDato.BOOLEANO); :}
+        | VOID {: RESULT = new Tipo(tipoDato.VOID); :}
         
 ;
 
+    
+
+DECLARACION_VECTOR ::= VAR ID:b DOSPUNTOS TIPOS:a CORCHETEA CORCHETEC IGUAL CORCHETEA LISTAVALORESUNI:c CORCHETEC FINCADENA 
+                    {: RESULT = new DeclaracionVector(b, a, c, true, aleft, aright); :}
+                    | CONST ID:b DOSPUNTOS TIPOS:a CORCHETEA CORCHETEC IGUAL CORCHETEA LISTAVALORESUNI:c CORCHETEC FINCADENA 
+                    {: RESULT = new DeclaracionVector(b, a, c, false, aleft, aright); :}
+                    | VAR ID:b DOSPUNTOS TIPOS:a CORCHETEA CORCHETEC CORCHETEA CORCHETEC IGUAL CORCHETEA LISTAVALORESBI:c CORCHETEC FINCADENA 
+                    {: RESULT = new DeclaracionVector(b, a, c, true, aleft, aright, true); :}
+                    | CONST ID:b DOSPUNTOS TIPOS:a CORCHETEA CORCHETEC CORCHETEA CORCHETEC IGUAL CORCHETEA LISTAVALORESBI:c CORCHETEC FINCADENA 
+                    {: RESULT = new DeclaracionVector(b, a, c, false, aleft, aright, true); :}
+                    | VAR ID:b DOSPUNTOS TIPOS:a CORCHETEA CORCHETEC FINCADENA 
+                    {: RESULT = new Declaracion(b, a, true, aleft, aright); :}
+                    | CONST ID:b DOSPUNTOS TIPOS:a CORCHETEA CORCHETEC FINCADENA 
+                    {: RESULT = new Declaracion(b, a, false, aleft, aright); :}
+;
+
+LISTAVALORESUNI ::= LISTAVALORESUNI:a COMA EXPRESION:b 
+                    {: RESULT = a; RESULT.add(b); :}
+               | EXPRESION:a                 
+                    {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+;
+
+LISTAVALORESBI ::= LISTAVALORESBI:a COMA CORCHETEA LISTAVALORESUNI:b CORCHETEC 
+                    {: RESULT = a; RESULT.add(b); :}
+                | CORCHETEA LISTAVALORESUNI:a CORCHETEC                 
+                    {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+;
+
+ASIGNAR_MODIFICAR_VECTOR ::= ID:a CORCHETEA EXPRESION:i CORCHETEC IGUAL EXPRESION:c FINCADENA 
+                            {: RESULT = new AsignacionVector(a, i, c, aleft, aright); :}
+                            | ID:a CORCHETEA EXPRESION:i CORCHETEC CORCHETEA EXPRESION:i2 CORCHETEC IGUAL EXPRESION:c FINCADENA
+                            {: RESULT = new AsignacionVector(a, i, i2, c, aleft, aright); :}
+;
+
+METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVEA INSTRUCCIONES:c LLAVEC    {:   RESULT= new Metodo(b, p, c, a, aleft, aright );   :}
+        |  TIPOS:a ID:b PAR1 PAR2 LLAVEA INSTRUCCIONES:c LLAVEC             {:   RESULT= new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright );   :}
+;
+
+PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  
+                                            RESULT = a;
+                                            var hm2= new HashMap<String, Object>();
+                                            hm2.put("id", c);
+                                            hm2.put("tipo", b);
+                                            RESULT.add(hm2);
+                                        :}
+        | TIPOS:a ID:b                  {:  RESULT = new LinkedList<HashMap>(); 
+                                            var hm = new HashMap<String, Object>();
+                                            hm.put("id",b);
+                                            hm.put("tipo", a);
+                                            RESULT.add(hm);
+                                        :}
+;
+
+RUN ::=  START_WITH ID:a PAR1 PARAMSLLAMADA:b PAR2 FINCADENA       {:   RESULT = new StartWith(a, b, aleft, aright );   :}
+            | START_WITH ID:a PAR1 PAR2 FINCADENA                  {:   RESULT = new StartWith(a, new LinkedList<Instruccion>(), aleft, aright );   :}
+;
+
+PARAMSLLAMADA ::= PARAMSLLAMADA:a COMA EXPRESION:e    {:  RESULT = a;
+                                                    RESULT.add(e);
+                                                :}
+            | EXPRESION:a                       {:  RESULT = new LinkedList<Instruccion>(); 
+                                                    RESULT.add(a);
+                                                :}
+;
 EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
             | PAR1 TIPOS:b PAR2 EXPRESION:a  {: RESULT = new Casteo(a, b, aleft, aright); :} %prec CAS
             | EXPRESION:a MAS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
@@ -232,6 +317,8 @@ EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, Operador
             | BOOLEANO:a {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright ); :}
             | PAR1 EXPRESION:a PAR2 {: RESULT = a; :}
             | ID:a {: RESULT = new AccesoVariable(a, aleft, aright); :}
+            | ID:a CORCHETEA EXPRESION:b CORCHETEC {: RESULT = new AccesoVector(a, b,  aleft, aright); :}
+            | ID:a CORCHETEA EXPRESION:b CORCHETEC CORCHETEA EXPRESION:c CORCHETEC  {: RESULT = new AccesoVector(a, b, c,  aleft, aright); :}
          
 ;
 

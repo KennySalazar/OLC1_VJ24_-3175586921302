@@ -19,7 +19,7 @@ public class Simbolo {
     private Tipo tipo;
     private String id;
     private Object valor;
-    private boolean mutabilidad; 
+    private boolean mutabilidad;
 
     // Constructor con tipo e id, establece el valor por defecto
     public Simbolo(Tipo tipo, String id, boolean mutabilidad) {
@@ -90,4 +90,15 @@ public class Simbolo {
     public void setMutabilidad(boolean mutabilidad) {
         this.mutabilidad = mutabilidad;
     }
+    
+ 
+
+    // Supongamos que el vector tiene un tipo de elementos consistente
+    public tipoDato getElementType() {
+        // Este método debe implementarse según cómo se gestionen los tipos de vector
+        // Por simplicidad, asumiremos que el tipo de los elementos es el mismo que el del símbolo
+        return this.tipo.getTipo();
+    }
+
+
 }

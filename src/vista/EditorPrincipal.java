@@ -9,7 +9,11 @@ import abstracto.Instruccion;
 import analisis.parser;
 import analisis.scanner;
 import excepciones.Errores;
+import expresiones.AccesoVariable;
+import instrucciones.StartWith;
+import instrucciones.AsignacionVariable;
 import instrucciones.Declaracion;
+import instrucciones.Metodo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -347,7 +351,6 @@ public class EditorPrincipal extends javax.swing.JFrame {
 
             //------
             try {
-
                 scanner s = new scanner(new BufferedReader(new StringReader(texto)));
                 parser p = new parser(s);
                 var resultado = p.parse();
@@ -355,30 +358,70 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 var tabla = new tablaSimbolos();
                 tabla.setNombre("GLOBAL");
                 ast.setConsola("");
+                ast.setTablaGlobal(tabla);
                 LinkedList<TablaSimbolosReporte> listaReporSimbolos = new LinkedList<>();
                 LinkedList<Errores> lista = new LinkedList<>();
                 lista.addAll(s.listaErrores);
                 lista.addAll(p.listaErrores);
+
+                StringBuilder consolaBuilder = new StringBuilder();
+                StringBuilder erroresBuilder = new StringBuilder();
+
+                // 1ER VUELTA: Almacenar los métodos
                 for (var a : ast.getInstrucciones()) {
                     if (a == null) {
                         continue;
                     }
 
-                    var res = a.interpretar(ast, tabla);
-                    if (res instanceof Errores) {
-                        lista.add((Errores) res);
+                    if (a instanceof Metodo) {
+                        ast.addFunciones(a);
                     }
                 }
-                
-                this.jTextArea2.setText(ast.getConsola());
-                for (var i : lista) {
-                    System.out.println(i);
+
+                // 2DA VUELTA: Procesar declaraciones y almacenar el resultado en la consola
+                for (var a : ast.getInstrucciones()) {
+                    if (a == null) {
+                        continue;
+                    }
+                    if (a instanceof Declaracion || a instanceof AsignacionVariable || a instanceof AccesoVariable) {
+                        var res = a.interpretar(ast, tabla);
+                        if (res instanceof Errores) {
+                            lista.add((Errores) res);
+                        } else {
+                            // Almacenar el resultado de la declaración en la consola
+                            consolaBuilder.append(res != null ? res.toString() : "").append("\n");
+                        }
+                    }
                 }
-                 
-                    llenarTablaErrores(lista, TablaErrores);
-                    llenarTablaSimbolos(ast.getListaReportes(), tablaSimbolos);
-                    
+
+                //execute -> start_with
+                StartWith r = null;
+                for (var a : ast.getInstrucciones()) {
+                    if (a == null) {
+                        continue;
+                    }
+                    if (a instanceof StartWith run) {
+                        r = run;
+                        break;
+                    }
+                }
+
+                var resultadoExecute = r.interpretar(ast, tabla);
+                if (resultadoExecute instanceof Errores) {
+                    System.out.println("Ya no sale compi1");
+                }
                 
+
+                consolaBuilder.append(ast.getConsola());
+                for (Errores error : lista) {
+                    erroresBuilder.append(error.toString()).append("\n");
+                }
+
+                // Establecer el texto completo en el JTextArea de la consola
+                this.jTextArea2.setText(consolaBuilder.toString() + erroresBuilder.toString());
+
+                llenarTablaErrores(lista, TablaErrores);
+                llenarTablaSimbolos(ast.getListaReportes(), tablaSimbolos);
 
             } catch (Exception ex) {
                 this.jTextArea2.setText("ALGO SALIO MAL\n " + ex);
@@ -389,8 +432,6 @@ public class EditorPrincipal extends javax.swing.JFrame {
             // Si no hay una pestaña seleccionada, mostrar un mensaje de advertencia
             JOptionPane.showMessageDialog(this, "No hay una pestaña seleccionada.");
         }
-
-
     }//GEN-LAST:event_btEjecutarActionPerformed
 
     private void btnCargaArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargaArchivoActionPerformed
@@ -459,8 +500,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
 
                 tabla1.addRow(columna);
                 i++;
-                
-                
+
             }
 
             tablaE.setModel(tabla1);

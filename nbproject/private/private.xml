@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/AccesoVariable.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/sym.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/AsignacionVector.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Casteo.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresLogicos.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/AsignacionVariable.java</file>
@@ -12,8 +13,10 @@
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/parser.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresAritmeticos.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/Simbolo.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/DeclaracionVector.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/Generador.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Convertidor.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/AccesoVector.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/Tipo.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Match.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresRelacionales.java</file>
@@ -33,7 +36,10 @@
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/tablaSimbolos.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/scanner.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/excepciones/Errores.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Metodo.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/StartWith.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Continue.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/build.xml</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Print.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/IncrementoDecremento.java</file>
             <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Logicos.java</file>

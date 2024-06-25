@@ -82,6 +82,8 @@ CARACTER = \'([^\'\\]|\\[ntr\'\"\\])\'
 <YYINITIAL>   "continue"          {return new Symbol(sym.CONTINUE, yyline, yycolumn, yytext());}
 <YYINITIAL>   "true"              {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext());}
 <YYINITIAL>   "false"             {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext());}
+<YYINITIAL>   "void"              {return new Symbol(sym.VOID, yyline, yycolumn, yytext());}
+<YYINITIAL>   "START_WITH"              {return new Symbol(sym.START_WITH, yyline, yycolumn, yytext());}
 
 
 <YYINITIAL>    {ID}                {return new Symbol(sym.ID, yyline, yycolumn, yytext());}
@@ -101,6 +103,7 @@ CARACTER = \'([^\'\\]|\\[ntr\'\"\\])\'
 <YYINITIAL>     "_ =>"               {return new Symbol(sym.SIGNODEFAULTMATCH, yyline, yycolumn, yytext());}
     
 
+<YYINITIAL>    ","                 {return new Symbol(sym.COMA, yyline, yycolumn, yytext());}
 <YYINITIAL>    ";"                 {return new Symbol(sym.FINCADENA, yyline, yycolumn, yytext());}
 <YYINITIAL>    "+"                 {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}
 <YYINITIAL>    "-"                 {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}
@@ -124,6 +127,8 @@ CARACTER = \'([^\'\\]|\\[ntr\'\"\\])\'
 <YYINITIAL>    "!"                 {return new Symbol(sym.NOT, yyline, yycolumn, yytext());}
 <YYINITIAL>    "{"                 {return new Symbol(sym.LLAVEA, yyline, yycolumn, yytext());}
 <YYINITIAL>    "}"                 {return new Symbol(sym.LLAVEC, yyline, yycolumn, yytext());}
+<YYINITIAL>    "["                 {return new Symbol(sym.CORCHETEA, yyline, yycolumn, yytext());}
+<YYINITIAL>    "]"                 {return new Symbol(sym.CORCHETEC, yyline, yycolumn, yytext());}
    
 
 
