@@ -84,6 +84,10 @@ CARACTER = \'([^\'\\]|\\[ntr\'\"\\])\'
 <YYINITIAL>   "false"             {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext());}
 <YYINITIAL>   "void"              {return new Symbol(sym.VOID, yyline, yycolumn, yytext());}
 <YYINITIAL>   "START_WITH"              {return new Symbol(sym.START_WITH, yyline, yycolumn, yytext());}
+<YYINITIAL>   "append"              {return new Symbol(sym.APPEND, yyline, yycolumn, yytext());}
+<YYINITIAL>   "remove"              {return new Symbol(sym.REMOVE, yyline, yycolumn, yytext());}
+<YYINITIAL>   "List"              {return new Symbol(sym.LISTA, yyline, yycolumn, yytext());}
+<YYINITIAL>   "new"              {return new Symbol(sym.NEW, yyline, yycolumn, yytext());}
 
 
 <YYINITIAL>    {ID}                {return new Symbol(sym.ID, yyline, yycolumn, yytext());}
@@ -103,6 +107,7 @@ CARACTER = \'([^\'\\]|\\[ntr\'\"\\])\'
 <YYINITIAL>     "_ =>"               {return new Symbol(sym.SIGNODEFAULTMATCH, yyline, yycolumn, yytext());}
     
 
+<YYINITIAL>    "."                 {return new Symbol(sym.PUNTO, yyline, yycolumn, yytext());}
 <YYINITIAL>    ","                 {return new Symbol(sym.COMA, yyline, yycolumn, yytext());}
 <YYINITIAL>    ";"                 {return new Symbol(sym.FINCADENA, yyline, yycolumn, yytext());}
 <YYINITIAL>    "+"                 {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}

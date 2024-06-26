@@ -13,6 +13,7 @@ public class sym {
   public static final int PAR1 = 19;
   public static final int CONST = 16;
   public static final int CHAR = 17;
+  public static final int REMOVE = 61;
   public static final int ENTERO = 3;
   public static final int CAS = 52;
   public static final int XOR = 38;
@@ -27,6 +28,7 @@ public class sym {
   public static final int NOT = 39;
   public static final int AND = 37;
   public static final int FINCADENA = 10;
+  public static final int APPEND = 60;
   public static final int SIGNOCASOMATCH = 45;
   public static final int MAYORQUE = 32;
   public static final int IGUAL = 34;
@@ -36,10 +38,12 @@ public class sym {
   public static final int INCREMENTO = 8;
   public static final int IF = 42;
   public static final int UMENOS = 23;
+  public static final int LISTA = 58;
   public static final int ID = 7;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
   public static final int MAYORIGUALQUE = 33;
+  public static final int NEW = 59;
   public static final int DECREMENTO = 9;
   public static final int error = 1;
   public static final int COMA = 53;
@@ -52,6 +56,7 @@ public class sym {
   public static final int MENORQUE = 30;
   public static final int POTENCIA = 26;
   public static final int ELSE = 43;
+  public static final int PUNTO = 62;
   public static final int SIGNODEFAULTMATCH = 46;
   public static final int START_WITH = 57;
   public static final int WHILE = 48;
@@ -124,7 +129,12 @@ public class sym {
   "CORCHETEA",
   "CORCHETEC",
   "VOID",
-  "START_WITH"
+  "START_WITH",
+  "LISTA",
+  "NEW",
+  "APPEND",
+  "REMOVE",
+  "PUNTO"
   };
 }
 

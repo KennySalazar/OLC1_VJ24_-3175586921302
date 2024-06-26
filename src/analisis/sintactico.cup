@@ -27,6 +27,9 @@ import instrucciones.DeclaracionVector;
 import instrucciones.AsignacionVector;
 import instrucciones.Metodo;
 import instrucciones.StartWith;
+import instrucciones.Append;
+import instrucciones.Remove;
+import instrucciones.DeclaracionLista;
 
 // Expresiones
 import expresiones.Nativo;
@@ -81,6 +84,8 @@ terminal String BREAK, CONTINUE;
 terminal CAS;
 terminal COMA, CORCHETEA, CORCHETEC;
 terminal VOID, START_WITH;
+terminal LISTA, NEW, APPEND, REMOVE, PUNTO;
+
 
 
 // No Terminales
@@ -101,6 +106,7 @@ nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion RUN;
 nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
+nonterminal Instruccion DECLARACION_LISTA, AÑADIR, ELIMINAR;
 
 
 precedence left OR;
@@ -141,6 +147,9 @@ INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
               | ASIGNAR_MODIFICAR_VECTOR :a    {:   RESULT=a;   :}
               | METODO:a                {:   RESULT=a;   :}
               | RUN:a                   {:   RESULT=a;   :}
+              | DECLARACION_LISTA:a                   {:   RESULT=a;   :}
+              | AÑADIR:a                   {:   RESULT=a;   :}
+              | ELIMINAR:a                   {:   RESULT=a;   :}
               | error FINCADENA
               | error
 ;
@@ -260,6 +269,18 @@ ASIGNAR_MODIFICAR_VECTOR ::= ID:a CORCHETEA EXPRESION:i CORCHETEC IGUAL EXPRESIO
                             {: RESULT = new AsignacionVector(a, i, c, aleft, aright); :}
                             | ID:a CORCHETEA EXPRESION:i CORCHETEC CORCHETEA EXPRESION:i2 CORCHETEC IGUAL EXPRESION:c FINCADENA
                             {: RESULT = new AsignacionVector(a, i, i2, c, aleft, aright); :}
+;
+
+DECLARACION_LISTA ::=  LISTA MENORQUE TIPOS:a MAYORQUE ID:b  IGUAL NEW LISTA PAR1 PAR2 FINCADENA {: RESULT = new DeclaracionLista(b, a, bleft, bright); :}
+
+;
+
+AÑADIR ::= ID:b PUNTO APPEND PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Append(b, a, aleft, aright); :}
+
+;
+
+ELIMINAR ::= ID:b PUNTO REMOVE PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Remove(b, a, aleft, aright); :}
+
 ;
 
 METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVEA INSTRUCCIONES:c LLAVEC    {:   RESULT= new Metodo(b, p, c, a, aleft, aright );   :}
