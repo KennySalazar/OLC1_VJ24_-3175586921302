@@ -3,51 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/AccesoVariable.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/sym.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/AsignacionVector.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Casteo.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresLogicos.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/AsignacionVariable.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/sintactico.cup</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/parser.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresAritmeticos.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/Simbolo.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/DeclaracionVector.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/Generador.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Convertidor.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/AccesoVector.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/Tipo.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Match.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/OperadoresRelacionales.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/Reportes/TablaSimbolosReporte.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/abstracto/Instruccion.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Break.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Caso.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Relacionales.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Nativo.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/lexico.jflex</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/tipoDato.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Aritmeticas.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/While.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/Arbol.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/For.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/DoWhile.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/simbolo/tablaSimbolos.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/analisis/scanner.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/excepciones/Errores.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Metodo.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/StartWith.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Continue.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/build.xml</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Print.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/IncrementoDecremento.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/expresiones/Logicos.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/main/Main.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/vista/EditorPrincipal.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Declaracion.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/If.java</file>
-            <file>file:/C:/Users/Kenny%20Salazar/Documents/NetBeansProjects/JavaCraft_C1_24/src/instrucciones/Append.java</file>
+            <file>file:/C:/Users/Kenny%20Salazar/Downloads/OLC1_VJ24_-3175586921302-main/build.xml</file>
         </group>
     </open-files>
 </project-private>

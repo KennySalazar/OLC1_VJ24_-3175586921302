@@ -27,6 +27,7 @@ import instrucciones.DeclaracionVector;
 import instrucciones.AsignacionVector;
 import instrucciones.Metodo;
 import instrucciones.StartWith;
+import instrucciones.Llamada;
 import instrucciones.Append;
 import instrucciones.Remove;
 import instrucciones.DeclaracionLista;
@@ -107,6 +108,7 @@ nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion RUN;
 nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
 nonterminal Instruccion DECLARACION_LISTA, AÑADIR, ELIMINAR;
+nonterminal Instruccion LLAMADA, LLAMADA_EXP;
 
 
 precedence left OR;
@@ -135,7 +137,6 @@ INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
               | ASIGNACION:a            {:   RESULT=a;   :}
               | DECREMENTOA:a           {:   RESULT=a;   :}
               | INCREMENTOA:a           {:   RESULT=a;   :}
-              | EXPRESION: a            {:   RESULT=a;   :}
               | SIF:a                   {:   RESULT=a;   :}
               | SMATCH:a                {:   RESULT=a;   :}
               | CFOR:a                  {:   RESULT=a;   :}
@@ -150,6 +151,7 @@ INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
               | DECLARACION_LISTA:a                   {:   RESULT=a;   :}
               | AÑADIR:a                   {:   RESULT=a;   :}
               | ELIMINAR:a                   {:   RESULT=a;   :}
+              | LLAMADA:a           {:   RESULT=a;   :}
               | error FINCADENA
               | error
 ;
@@ -306,6 +308,15 @@ RUN ::=  START_WITH ID:a PAR1 PARAMSLLAMADA:b PAR2 FINCADENA       {:   RESULT =
             | START_WITH ID:a PAR1 PAR2 FINCADENA                  {:   RESULT = new StartWith(a, new LinkedList<Instruccion>(), aleft, aright );   :}
 ;
 
+LLAMADA ::= ID:a PAR1 PARAMSLLAMADA:b PAR2 FINCADENA               {:  RESULT= new Llamada(a, b, aleft, aright);    :}
+          | ID:a PAR1 PAR2 FINCADENA                            {:  RESULT= new Llamada(a, new LinkedList<Instruccion>(), aleft, aright);    :}    
+;
+
+LLAMADA_EXP ::= ID:a PAR1 PARAMSLLAMADA:b PAR2              {:  RESULT= new Llamada(a, b, aleft, aright);    :}
+                | ID:a PAR1 PAR2                            {:  RESULT= new Llamada(a, new LinkedList<Instruccion>(), aleft, aright);    :}
+
+;
+
 PARAMSLLAMADA ::= PARAMSLLAMADA:a COMA EXPRESION:e    {:  RESULT = a;
                                                     RESULT.add(e);
                                                 :}
@@ -340,7 +351,7 @@ EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, Operador
             | ID:a {: RESULT = new AccesoVariable(a, aleft, aright); :}
             | ID:a CORCHETEA EXPRESION:b CORCHETEC {: RESULT = new AccesoVector(a, b,  aleft, aright); :}
             | ID:a CORCHETEA EXPRESION:b CORCHETEC CORCHETEA EXPRESION:c CORCHETEC  {: RESULT = new AccesoVector(a, b, c,  aleft, aright); :}
-         
+            | LLAMADA_EXP:a {: RESULT = a; :}
 ;
 
 
