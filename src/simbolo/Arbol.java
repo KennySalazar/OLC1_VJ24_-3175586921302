@@ -7,6 +7,7 @@ package simbolo;
 import Reportes.TablaSimbolosReporte;
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.Funcion;
 import instrucciones.Metodo;
 import java.util.LinkedList;
 
@@ -95,16 +96,23 @@ public class Arbol {
     }
 
     public void addFunciones(Instruccion funcion) {
-        
-        //llamara  getFuncion y validar que no venga con el mismo nombre, si el null que agregue sino es porque esa funcion ya existe
-        this.funciones.add(funcion);
+        if (getFuncion(funcion instanceof Metodo ? ((Metodo) funcion).id : ((Funcion) funcion).id) == null) {
+            this.funciones.add(funcion);
+        } else {
+            // Manejar error de función duplicada
+            System.out.println("Error: La función ya existe.");
+        }
     }
 
     public Instruccion getFuncion(String id) {
         for (var i : this.funciones) {
             if (i instanceof Metodo metodo) {
                 if (metodo.id.equalsIgnoreCase(id)) {
-                    return i;
+                    return metodo;
+                }
+            } else if (i instanceof Funcion funcion) {
+                if (funcion.id.equalsIgnoreCase(id)) {
+                    return funcion;
                 }
             }
         }

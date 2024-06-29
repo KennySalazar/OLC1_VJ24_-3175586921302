@@ -88,6 +88,12 @@ CARACTER = \'([^\'\\]|\\[ntr\'\"\\])\'
 <YYINITIAL>   "remove"              {return new Symbol(sym.REMOVE, yyline, yycolumn, yytext());}
 <YYINITIAL>   "List"              {return new Symbol(sym.LISTA, yyline, yycolumn, yytext());}
 <YYINITIAL>   "new"              {return new Symbol(sym.NEW, yyline, yycolumn, yytext());}
+<YYINITIAL>   "return"              {return new Symbol(sym.RETURN, yyline, yycolumn, yytext());}
+<YYINITIAL>   "void"              {return new Symbol(sym.VOID, yyline, yycolumn, yytext());}
+<YYINITIAL>   "round"              {return new Symbol(sym.ROUND, yyline, yycolumn, yytext());}
+<YYINITIAL>   "length"              {return new Symbol(sym.LENGTH, yyline, yycolumn, yytext());}
+<YYINITIAL>   "toString"              {return new Symbol(sym.TOSTRING, yyline, yycolumn, yytext());}
+<YYINITIAL>   "Find"              {return new Symbol(sym.FIND, yyline, yycolumn, yytext());}
 
 
 <YYINITIAL>    {ID}                {return new Symbol(sym.ID, yyline, yycolumn, yytext());}

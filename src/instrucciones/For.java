@@ -78,6 +78,9 @@ public class For extends Instruccion {
                 if (i instanceof Continue) {
                      break;
                 }
+                if (i instanceof Return) {
+                     return i;
+                }
                 
                 var resIns = i.interpretar(arbol, newTabla2);
                 if (resIns instanceof Break) {
@@ -85,6 +88,9 @@ public class For extends Instruccion {
                 }
                  if (resIns instanceof Continue) {
                     break;
+                }
+                 if (resIns instanceof Return) {
+                     return resIns;
                 }
             }
 

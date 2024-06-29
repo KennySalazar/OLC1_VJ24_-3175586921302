@@ -28,10 +28,10 @@ public class DeclaracionLista extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // Crear el símbolo para la lista.
+        
         Simbolo s = new Simbolo(this.tipo, this.identificador, new LinkedList<>(), true);
 
-        // Agregar el símbolo a la tabla de símbolos.
+      
         boolean creacion = tabla.crearArreglo(s);
         if (!creacion) {
             return new Errores("SEMANTICO", "La lista " + identificador + " ya existe", this.linea, this.col);

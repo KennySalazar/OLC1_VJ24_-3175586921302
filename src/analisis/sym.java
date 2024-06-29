@@ -13,6 +13,7 @@ public class sym {
   public static final int PAR1 = 19;
   public static final int CONST = 16;
   public static final int CHAR = 17;
+  public static final int FIND = 67;
   public static final int REMOVE = 61;
   public static final int ENTERO = 3;
   public static final int CAS = 52;
@@ -42,6 +43,7 @@ public class sym {
   public static final int ID = 7;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
+  public static final int RETURN = 63;
   public static final int MAYORIGUALQUE = 33;
   public static final int NEW = 59;
   public static final int DECREMENTO = 9;
@@ -51,6 +53,7 @@ public class sym {
   public static final int MODULO = 27;
   public static final int NEGACION = 29;
   public static final int MENOS = 22;
+  public static final int TOSTRING = 66;
   public static final int BREAK = 50;
   public static final int VOID = 56;
   public static final int MENORQUE = 30;
@@ -68,6 +71,8 @@ public class sym {
   public static final int LLAVEC = 41;
   public static final int LLAVEA = 40;
   public static final int VAR = 15;
+  public static final int LENGTH = 65;
+  public static final int ROUND = 64;
   public static final int DO = 49;
   public static final int MULTIPLICACION = 24;
   public static final int MAS = 21;
@@ -134,7 +139,12 @@ public class sym {
   "NEW",
   "APPEND",
   "REMOVE",
-  "PUNTO"
+  "PUNTO",
+  "RETURN",
+  "ROUND",
+  "LENGTH",
+  "TOSTRING",
+  "FIND"
   };
 }
 

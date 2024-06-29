@@ -31,30 +31,23 @@ public class Llamada extends Instruccion {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var busqueda = arbol.getFuncion(this.id);
         if (busqueda == null) {
-            return new Errores("SEMANTICO", "Funcion no existente",
-                    this.linea, this.col);
+            return new Errores("SEMANTICO", "Funcion no existente", this.linea, this.col);
         }
 
+        tablaSimbolos newTabla = new tablaSimbolos(tabla);
+
         if (busqueda instanceof Metodo metodo) {
-            var newTabla = new tablaSimbolos(arbol.getTablaGlobal());
             newTabla.setNombre("LLAMADA METODO " + this.id);
             if (metodo.parametros.size() != this.parametros.size()) {
-                return new Errores("SEMANTICO", "Parametros Erroneos",
-                        this.linea, this.col);
+                return new Errores("SEMANTICO", "Parametros Erroneos", this.linea, this.col);
             }
 
             for (int i = 0; i < this.parametros.size(); i++) {
-                var identificador = (String) metodo.parametros.
-                        get(i).get("id");
-
+                var identificador = (String) metodo.parametros.get(i).get("id");
                 var valor = this.parametros.get(i);
+                var tipo2 = (Tipo) metodo.parametros.get(i).get("tipo");
 
-                var tipo2 = (Tipo) metodo.parametros.
-                        get(i).get("tipo");
-
-                var declaracionParametro = new Declaracion(identificador, tipo2,true,
-                        this.linea, this.col);
-
+                var declaracionParametro = new Declaracion(identificador, tipo2, true, this.linea, this.col);
                 var resultado = declaracionParametro.interpretar(arbol, newTabla);
 
                 if (resultado instanceof Errores) {
@@ -68,26 +61,78 @@ public class Llamada extends Instruccion {
 
                 var variable = newTabla.obtenerVariable(identificador);
                 if (variable == null) {
-                    return new Errores("SEMANTICO", "Error declaracion parametros",
-                            this.linea, this.col);
+                    return new Errores("SEMANTICO", "Error declaracion parametros", this.linea, this.col);
                 }
                 if (variable.getTipo().getTipo() != valor.tipo.getTipo()) {
-                    return new Errores("SEMANTICO", "Error en tipo de parametro",
-                            this.linea, this.col);
+                    return new Errores("SEMANTICO", "Error en tipo de parametro", this.linea, this.col);
                 }
 
                 variable.setValor(valorInterpretado);
             }
 
-            var resultadoFuncion = metodo.interpretar(arbol, newTabla);
+            var resultadoMetodo = metodo.interpretar(arbol, newTabla);
+            if (resultadoMetodo instanceof Errores) {
+                return resultadoMetodo;
+            }
+            
+            if (resultadoMetodo instanceof Return) {
+                return null; 
+            }
+            
+        } else if (busqueda instanceof Funcion funcion) {
+            newTabla.setNombre("LLAMADA FUNCION " + this.id);
+            if (funcion.parametros.size() != this.parametros.size()) {
+                return new Errores("SEMANTICO", "Parametros Erroneos", this.linea, this.col);
+            }
+
+            for (int i = 0; i < this.parametros.size(); i++) {
+                var identificador = (String) funcion.parametros.get(i).get("id");
+                var valor = this.parametros.get(i);
+                var tipo2 = (Tipo) funcion.parametros.get(i).get("tipo");
+
+                var declaracionParametro = new Declaracion(identificador, tipo2, true, this.linea, this.col);
+                var resultado = declaracionParametro.interpretar(arbol, newTabla);
+
+                if (resultado instanceof Errores) {
+                    return resultado;
+                }
+
+                var valorInterpretado = valor.interpretar(arbol, tabla);
+                if (valorInterpretado instanceof Errores) {
+                    return valorInterpretado;
+                }
+
+                var variable = newTabla.obtenerVariable(identificador);
+                if (variable == null) {
+                    return new Errores("SEMANTICO", "Error declaracion parametros", this.linea, this.col);
+                }
+                if (variable.getTipo().getTipo() != valor.tipo.getTipo()) {
+                    return new Errores("SEMANTICO", "Error en tipo de parametro", this.linea, this.col);
+                }
+
+                variable.setValor(valorInterpretado);
+            }
+
+            var resultadoFuncion = funcion.interpretar(arbol, newTabla);
             if (resultadoFuncion instanceof Errores) {
                 return resultadoFuncion;
             }
 
+            this.tipo.setTipo(((Funcion) busqueda).tipo.getTipo());
+            if (resultadoFuncion instanceof Return) {
+
+                Object valorRetorno = ((Return) resultadoFuncion).interpretar(arbol, newTabla);
+
+                if (valorRetorno instanceof Errores) {
+                    return valorRetorno;
+                }
+
+                return valorRetorno;
+            }
+
+            return resultadoFuncion;
         }
+
         return null;
-
     }
-
-    
 }

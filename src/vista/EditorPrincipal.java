@@ -13,6 +13,8 @@ import expresiones.AccesoVariable;
 import instrucciones.StartWith;
 import instrucciones.AsignacionVariable;
 import instrucciones.Declaracion;
+import instrucciones.DeclaracionVector;
+import instrucciones.Funcion;
 import instrucciones.Metodo;
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,6 +57,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
         initComponents();
 
         textAreas = new ArrayList<>();
+        
 
     }
 
@@ -367,23 +370,23 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 StringBuilder consolaBuilder = new StringBuilder();
                 StringBuilder erroresBuilder = new StringBuilder();
 
-                // 1ER VUELTA: Almacenar los métodos
+                // 1ER VUELTA: Almacenar los métodos   STRUCT
                 for (var a : ast.getInstrucciones()) {
                     if (a == null) {
                         continue;
                     }
 
-                    if (a instanceof Metodo) {
+                    if (a instanceof Metodo || a instanceof Funcion) {
                         ast.addFunciones(a);
                     }
                 }
 
-                // 2DA VUELTA: Procesar declaraciones y almacenar el resultado en la consola
+                // 2DA VUELTA: Procesar declaraciones y almacenar el resultado en la consola 
                 for (var a : ast.getInstrucciones()) {
                     if (a == null) {
                         continue;
                     }
-                    if (a instanceof Declaracion || a instanceof AsignacionVariable || a instanceof AccesoVariable) {
+                    if (a instanceof Declaracion || a instanceof AsignacionVariable || a instanceof DeclaracionVector) {
                         var res = a.interpretar(ast, tabla);
                         if (res instanceof Errores) {
                             lista.add((Errores) res);
@@ -413,9 +416,11 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 
 
                 consolaBuilder.append(ast.getConsola());
+                 lista.addAll(ast.getErrores());
                 for (Errores error : lista) {
                     erroresBuilder.append(error.toString()).append("\n");
                 }
+                
 
                 // Establecer el texto completo en el JTextArea de la consola
                 this.jTextArea2.setText(consolaBuilder.toString() + erroresBuilder.toString());

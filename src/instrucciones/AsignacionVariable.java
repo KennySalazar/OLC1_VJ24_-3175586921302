@@ -29,6 +29,12 @@ public class AsignacionVariable extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+
+        var newValor = this.exp.interpretar(arbol, tabla);
+        // Interpretar el nuevo valor a asignar
+        if (newValor instanceof Errores) {
+            return newValor;
+        }
         // Verificar si la variable existe
         var variable = tabla.obtenerVariable(id);
         if (variable == null) {
@@ -40,18 +46,12 @@ public class AsignacionVariable extends Instruccion {
             return new Errores("SEMANTICO", "No se puede modificar la variable " + id + " porque es de tipo CONSTANTE", this.linea, this.col);
         }
 
-        // Interpretar el nuevo valor a asignar
-        var newValor = this.exp.interpretar(arbol, tabla);
-        if (newValor instanceof Errores) {
-            return newValor;
-        }
-
         // Validar tipos
         if (variable.getTipo().getTipo() != this.exp.tipo.getTipo()) {
             return new Errores("SEMANTICO", "Tipos erroneos en la modificacion de la varible", this.linea, this.col);
         }
 
-        this.tipo.setTipo(variable.getTipo().getTipo());
+        //this.tipo.setTipo(variable.getTipo().getTipo());
         variable.setValor(newValor);
         return null;
     }

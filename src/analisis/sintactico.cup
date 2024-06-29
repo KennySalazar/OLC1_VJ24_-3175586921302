@@ -31,6 +31,8 @@ import instrucciones.Llamada;
 import instrucciones.Append;
 import instrucciones.Remove;
 import instrucciones.DeclaracionLista;
+import instrucciones.Return;
+import instrucciones.Funcion;
 
 // Expresiones
 import expresiones.Nativo;
@@ -42,6 +44,11 @@ import expresiones.OperadoresRelacionales;
 import expresiones.OperadoresLogicos;
 import expresiones.AccesoVariable;
 import expresiones.AccesoVector;
+import expresiones.Round;
+import expresiones.Length;
+import expresiones.ToString;
+import expresiones.Find;
+
 
 // Parser
 parser code
@@ -86,6 +93,8 @@ terminal CAS;
 terminal COMA, CORCHETEA, CORCHETEC;
 terminal VOID, START_WITH;
 terminal LISTA, NEW, APPEND, REMOVE, PUNTO;
+terminal RETURN;
+terminal ROUND, LENGTH, TOSTRING, FIND;
 
 
 
@@ -103,12 +112,13 @@ nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORESBI;
 nonterminal Tipo TIPOS;
 nonterminal Instruccion EXPRESION;
 nonterminal Instruccion ASIGNAR_MODIFICAR_VECTOR;
-nonterminal Instruccion METODO;
+nonterminal Instruccion METODO, FUNCION;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion RUN;
 nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
 nonterminal Instruccion DECLARACION_LISTA, AÑADIR, ELIMINAR;
 nonterminal Instruccion LLAMADA, LLAMADA_EXP;
+nonterminal Instruccion RETORNO_VALOR;
 
 
 precedence left OR;
@@ -152,6 +162,8 @@ INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
               | AÑADIR:a                   {:   RESULT=a;   :}
               | ELIMINAR:a                   {:   RESULT=a;   :}
               | LLAMADA:a           {:   RESULT=a;   :}
+              | RETORNO_VALOR:a           {:   RESULT=a;   :}
+              | FUNCION:a           {:   RESULT=a;   :}
               | error FINCADENA
               | error
 ;
@@ -235,7 +247,6 @@ TIPOS ::= INT    {: RESULT = new Tipo(tipoDato.ENTERO); :}
         | STRING {: RESULT = new Tipo(tipoDato.CADENA); :}
         | CHAR {: RESULT = new Tipo(tipoDato.CARACTER); :}
         | BOOL {: RESULT = new Tipo(tipoDato.BOOLEANO); :}
-        | VOID {: RESULT = new Tipo(tipoDato.VOID); :}
         
 ;
 
@@ -285,8 +296,18 @@ ELIMINAR ::= ID:b PUNTO REMOVE PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new R
 
 ;
 
-METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVEA INSTRUCCIONES:c LLAVEC    {:   RESULT= new Metodo(b, p, c, a, aleft, aright );   :}
-        |  TIPOS:a ID:b PAR1 PAR2 LLAVEA INSTRUCCIONES:c LLAVEC             {:   RESULT= new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright );   :}
+METODO ::= VOID ID:b PAR1 PARAMS:p PAR2 LLAVEA INSTRUCCIONES:c LLAVEC    {:   RESULT= new Metodo(b, p, c, new Tipo(tipoDato.VOID) , bleft, bright );   :}
+        |  VOID ID:b PAR1 PAR2 LLAVEA INSTRUCCIONES:c LLAVEC             {:   RESULT= new Metodo(b, new LinkedList<HashMap>(), c, new Tipo(tipoDato.VOID) , bleft, bright );   :}
+;
+
+FUNCION ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVEA INSTRUCCIONES:c LLAVEC    {:   RESULT= new Funcion(b, p, c, a, aleft, aright );   :}
+        |  TIPOS:a ID:b PAR1 PAR2 LLAVEA INSTRUCCIONES:c LLAVEC             {:   RESULT= new Funcion(b, new LinkedList<HashMap>(), c, a, aleft, aright );   :}
+;
+
+
+
+RETORNO_VALOR ::=  RETURN EXPRESION:a FINCADENA  {: RESULT =  new Return(a, aleft, aright); :}
+                  |  RETURN:a FINCADENA           {: RESULT =  new Return(aleft, aright); :}
 ;
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  
@@ -352,6 +373,10 @@ EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, Operador
             | ID:a CORCHETEA EXPRESION:b CORCHETEC {: RESULT = new AccesoVector(a, b,  aleft, aright); :}
             | ID:a CORCHETEA EXPRESION:b CORCHETEC CORCHETEA EXPRESION:c CORCHETEC  {: RESULT = new AccesoVector(a, b, c,  aleft, aright); :}
             | LLAMADA_EXP:a {: RESULT = a; :}
+            | ROUND PAR1 EXPRESION:a PAR2 {: RESULT = new Round(a, aleft, aright); :}
+            | LENGTH PAR1 EXPRESION:a PAR2 {: RESULT = new Length(a, aleft, aright); :}
+            | TOSTRING PAR1 EXPRESION:a PAR2 {: RESULT = new ToString(a, aleft, aright); :}
+            | ID:b PUNTO FIND PAR1 EXPRESION:a PAR2 {: RESULT = new Find(b, a, aleft, aright); :}
 ;
 
 

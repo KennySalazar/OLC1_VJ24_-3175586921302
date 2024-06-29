@@ -88,13 +88,17 @@ public class If extends Instruccion {
                 if (i instanceof Continue) {
                     return i;
                 }
+                
+                if(i instanceof Return){
+                return i;
+                }
                 var resultado = i.interpretar(arbol, newTabla);
 
-                if (i instanceof Break) {
-                    return i;
+                if (resultado instanceof Break || resultado instanceof Return) {
+                    return resultado;
                 }
-                if (i instanceof Continue) {
-                    return i;
+                if (resultado instanceof Continue) {
+                    return resultado;
                 }
                 if (resultado instanceof Errores) {
                     return resultado;
@@ -111,15 +115,15 @@ public class If extends Instruccion {
                     if (i instanceof Break) {
                         return i;
                     }
-                    if (i instanceof Continue) {
+                    if (i instanceof Continue || i instanceof Return ) {
                         return i;
                     }
                     var resultado = i.interpretar(arbol, newTabla);
-                    if (i instanceof Break) {
-                        return i;
+                    if (resultado instanceof Break) {
+                        return resultado;
                     }
-                    if (i instanceof Continue) {
-                        return i;
+                    if (resultado instanceof Continue   || resultado instanceof Return  ) {
+                        return resultado;
                     }
                     if (resultado instanceof Errores) {
                         return resultado;
