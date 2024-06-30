@@ -30,7 +30,7 @@ public class Find extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        Simbolo simbolo = tabla.obtenerVector(this.identificador);
+        Simbolo simbolo = tabla.obtenerVariable(this.identificador);
         if (simbolo == null) {
             return new Errores("SEMANTICO", "El identificador " + this.identificador + " no existe", this.linea, this.col);
         }

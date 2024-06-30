@@ -26,7 +26,7 @@ public class Simbolo {
         this.tipo = tipo;
         this.id = id;
         this.mutabilidad = mutabilidad;
-        this.valor = getDefaultValor(tipo); // Establecer valor por defecto según el tipo
+        this.valor = getDefaultValor(tipo); 
     }
 
     // Constructor con tipo, id y valor
@@ -54,7 +54,7 @@ public class Simbolo {
         }
     }
 
-    // Getters y Setters
+   
     public Tipo getTipo() {
         return tipo;
     }
@@ -93,10 +93,8 @@ public class Simbolo {
     
  
 
-    // Supongamos que el vector tiene un tipo de elementos consistente
     public tipoDato getElementType() {
-        // Este método debe implementarse según cómo se gestionen los tipos de vector
-        // Por simplicidad, asumiremos que el tipo de los elementos es el mismo que el del símbolo
+      
         return this.tipo.getTipo();
     }
 

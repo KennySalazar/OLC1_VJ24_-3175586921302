@@ -24,17 +24,18 @@ public class ToString extends Instruccion {
         this.expresion = expresion;
     }
 
+ 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var resultado = this.expresion.interpretar(arbol, tabla);
         if (resultado instanceof Errores) {
             return resultado;
         }
-        if (resultado instanceof Integer || resultado instanceof Double
-                || resultado instanceof Character || resultado instanceof Boolean
-               ) {  
-            return resultado.toString();
-        }
-        return new Errores("SEMANTICO", "El parametro de la funcion toString no se puede pasar a una cadena", this.linea, this.col);
+
+        // Imprimir el tipo y valor del resultado para depuración
+        System.out.println("Resultado: " + resultado + " Tipo: " + resultado.getClass().getSimpleName());
+
+        // Simplemente devolver el valor convertido a String
+        return resultado.toString();
     }
 }

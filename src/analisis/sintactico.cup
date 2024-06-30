@@ -34,6 +34,7 @@ import instrucciones.DeclaracionLista;
 import instrucciones.Return;
 import instrucciones.Funcion;
 
+
 // Expresiones
 import expresiones.Nativo;
 import expresiones.Aritmeticas;
@@ -98,6 +99,7 @@ terminal ROUND, LENGTH, TOSTRING, FIND;
 
 
 
+
 // No Terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
@@ -116,7 +118,7 @@ nonterminal Instruccion METODO, FUNCION;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion RUN;
 nonterminal LinkedList<Instruccion> PARAMSLLAMADA;
-nonterminal Instruccion DECLARACION_LISTA, AÑADIR, ELIMINAR;
+nonterminal Instruccion DECLARACION_LISTA, ANADIR, ELIMINAR;
 nonterminal Instruccion LLAMADA, LLAMADA_EXP;
 nonterminal Instruccion RETORNO_VALOR;
 
@@ -159,7 +161,7 @@ INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
               | METODO:a                {:   RESULT=a;   :}
               | RUN:a                   {:   RESULT=a;   :}
               | DECLARACION_LISTA:a                   {:   RESULT=a;   :}
-              | AÑADIR:a                   {:   RESULT=a;   :}
+              | ANADIR:a                   {:   RESULT=a;   :}
               | ELIMINAR:a                   {:   RESULT=a;   :}
               | LLAMADA:a           {:   RESULT=a;   :}
               | RETORNO_VALOR:a           {:   RESULT=a;   :}
@@ -288,7 +290,7 @@ DECLARACION_LISTA ::=  LISTA MENORQUE TIPOS:a MAYORQUE ID:b  IGUAL NEW LISTA PAR
 
 ;
 
-AÑADIR ::= ID:b PUNTO APPEND PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Append(b, a, aleft, aright); :}
+ANADIR ::= ID:b PUNTO APPEND PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Append(b, a, aleft, aright); :}
 
 ;
 
@@ -345,6 +347,7 @@ PARAMSLLAMADA ::= PARAMSLLAMADA:a COMA EXPRESION:e    {:  RESULT = a;
                                                     RESULT.add(a);
                                                 :}
 ;
+
 EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
             | PAR1 TIPOS:b PAR2 EXPRESION:a  {: RESULT = new Casteo(a, b, aleft, aright); :} %prec CAS
             | EXPRESION:a MAS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}

@@ -1,0 +1,174 @@
+		GRAMATICA
+Terminales
+terminal CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, INCREMENTO, DECREMENTO;
+terminal FINCADENA, PRINTLN, STRING, DOUBLE, INT, VAR, CONST, CHAR, BOOL;
+terminal PAR1, PAR2, MAS, MENOS, UMENOS, MULTIPLICACION, DIVISION, POTENCIA, MODULO;
+terminal COMPARACIONIGUALIGUAL, NEGACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
+terminal IGUAL, DOSPUNTOS;
+terminal OR, AND, XOR, NOT;
+terminal LLAVEA, LLAVEC, IF, ELSE;
+terminal MATCH, SIGNOCASOMATCH, SIGNODEFAULTMATCH;
+terminal FOR, WHILE, DO;
+terminal String BREAK, CONTINUE;
+terminal CAS;
+
+No Terminales
+nonterminal INICIO, INSTRUCCIONES;
+nonterminal  INSTRUCCION;
+nonterminal  IMPRESION, DECLARACION, ASIGNACION, INCREMENTOA, DECREMENTOA;
+nonterminal  SIF, SMATCH;
+nonterminal  CFOR, ACTUALIZA_FOR, CWHILE, CDOWHILE, BREAKK, CONTINUEA;
+nonterminal  CASOS;
+nonterminal  CASO, DEFAULTCASO;
+nonterminal  TIPOS;
+nonterminal  EXPRESION;
+
+
+<INICIO> ::= <INSTRUCCIONES>
+
+<INSTRUCCIONES> ::= <INSTRUCCIONES> <INSTRUCCION>
+                  | <INSTRUCCION>
+
+<INSTRUCCION> ::= <IMPRESION>
+                | <DECLARACION>
+                | <ASIGNACION>
+                | <DECREMENTOA>
+                | <INCREMENTOA>
+                | <EXPRESION>
+                | <SIF>
+                | <SMATCH>
+                | <CFOR>
+                | <CWHILE>
+                | <CDOWHILE>
+                | <BREAKK>
+                | <CONTINUEA>
+                | error FINCADENA
+                | error
+
+<IMPRESION> ::= PRINTLN PAR1 <EXPRESION> PAR2 FINCADENA
+
+<DECLARACION> ::= VAR ID DOSPUNTOS <TIPOS> IGUAL <EXPRESION> FINCADENA
+                | VAR ID DOSPUNTOS <TIPOS> FINCADENA
+                | CONST ID DOSPUNTOS <TIPOS> IGUAL <EXPRESION> FINCADENA
+                | CONST ID DOSPUNTOS <TIPOS> FINCADENA
+
+<ASIGNACION> ::= ID IGUAL <EXPRESION> FINCADENA
+
+<SIF> ::= IF PAR1 <EXPRESION> PAR2 LLAVEA <INSTRUCCIONES> LLAVEC
+        | IF PAR1 <EXPRESION> PAR2 LLAVEA <INSTRUCCIONES> LLAVEC ELSE LLAVEA <INSTRUCCIONES> LLAVEC
+        | IF PAR1 <EXPRESION> PAR2 LLAVEA <INSTRUCCIONES> LLAVEC ELSE <SIF>
+
+<SMATCH> ::= MATCH <EXPRESION> LLAVEA <CASOS> LLAVEC
+           | MATCH <EXPRESION> LLAVEA <CASOS> <DEFAULTCASO> LLAVEC
+           | MATCH <EXPRESION> LLAVEA <DEFAULTCASO> LLAVEC
+
+<CASOS> ::= <CASOS> <CASO>
+          | <CASO>
+
+<CASO> ::= <EXPRESION> SIGNOCASOMATCH LLAVEA <INSTRUCCIONES> LLAVEC
+
+<DEFAULTCASO> ::= SIGNODEFAULTMATCH LLAVEA <INSTRUCCIONES> LLAVEC
+
+<CFOR> ::= FOR PAR1 <ASIGNACION> <EXPRESION> FINCADENA <ACTUALIZA_FOR> PAR2 LLAVEA <INSTRUCCIONES> LLAVEC
+
+<ACTUALIZA_FOR> ::= ID IGUAL <EXPRESION>
+                  | ID INCREMENTO
+                  | ID DECREMENTO
+
+<CWHILE> ::= WHILE <EXPRESION> LLAVEA <INSTRUCCIONES> LLAVEC
+
+<CDOWHILE> ::= DO LLAVEA <INSTRUCCIONES> LLAVEC WHILE <EXPRESION> FINCADENA
+
+<BREAKK> ::= BREAK FINCADENA
+
+<CONTINUEA> ::= CONTINUE FINCADENA
+
+<TIPOS> ::= INT
+          | DOUBLE
+          | STRING
+          | CHAR
+          | BOOL
+
+<DECLARACION_VECTOR> ::= "VAR" <ID> ":" <TIPOS> "[]" "=" "[" <LISTAVALORESUNI> "]" "FINCADENA"
+                       | "CONST" <ID> ":" <TIPOS> "[]" "=" "[" <LISTAVALORESUNI> "]" "FINCADENA"
+                       | "VAR" <ID> ":" <TIPOS> "[][]" "=" "[" <LISTAVALORESBI> "]" "FINCADENA"
+                       | "CONST" <ID> ":" <TIPOS> "[][]" "=" "[" <LISTAVALORESBI> "]" "FINCADENA"
+                       | "VAR" <ID> ":" <TIPOS> "[]" "FINCADENA"
+                       | "CONST" <ID> ":" <TIPOS> "[]" "FINCADENA"
+
+<LISTAVALORESUNI> ::= <LISTAVALORESUNI> "," <EXPRESION>
+                    | <EXPRESION>
+
+<LISTAVALORESBI> ::= <LISTAVALORESBI> "," "[" <LISTAVALORESUNI> "]"
+                   | "[" <LISTAVALORESUNI> "]"
+
+<ASIGNAR_MODIFICAR_VECTOR> ::= <ID> "[" <EXPRESION> "]" "=" <EXPRESION> "FINCADENA"
+                             | <ID> "[" <EXPRESION> "]" "[" <EXPRESION> "]" "=" <EXPRESION> "FINCADENA"
+
+<DECLARACION_LISTA> ::= "LISTA" "<" <TIPOS> ">" <ID> "=" "NEW" "LISTA" "(" ")" "FINCADENA"
+
+<AÑADIR> ::= <ID> "." "APPEND" "(" <EXPRESION> ")" "FINCADENA"
+
+<ELIMINAR> ::= <ID> "." "REMOVE" "(" <EXPRESION> ")" "FINCADENA"
+
+<METODO> ::= "VOID" <ID> "(" <PARAMS> ")" "{" <INSTRUCCIONES> "}"
+           | "VOID" <ID> "(" ")" "{" <INSTRUCCIONES> "}"
+
+<FUNCION> ::= <TIPOS> <ID> "(" <PARAMS> ")" "{" <INSTRUCCIONES> "}"
+            | <TIPOS> <ID> "(" ")" "{" <INSTRUCCIONES> "}"
+
+<RETORNO_VALOR> ::= "RETURN" <EXPRESION> "FINCADENA"
+                  | "RETURN" "FINCADENA"
+
+<PARAMS> ::= <PARAMS> "," <TIPOS> <ID>
+           | <TIPOS> <ID>
+
+<RUN> ::= "START_WITH" <ID> "(" <PARAMSLLAMADA> ")" "FINCADENA"
+        | "START_WITH" <ID> "(" ")" "FINCADENA"
+
+<LLAMADA> ::= <ID> "(" <PARAMSLLAMADA> ")" "FINCADENA"
+            | <ID> "(" ")" "FINCADENA"
+
+<LLAMADA_EXP> ::= <ID> "(" <PARAMSLLAMADA> ")"
+                | <ID> "(" ")"
+
+<PARAMSLLAMADA> ::= <PARAMSLLAMADA> "," <EXPRESION>
+                  | <EXPRESION>
+
+
+<EXPRESION> ::= MENOS <EXPRESION>
+              | PAR1 <TIPOS> PAR2 <EXPRESION>
+              | <EXPRESION> MAS <EXPRESION>
+              | <EXPRESION> MENOS <EXPRESION>
+              | <EXPRESION> MULTIPLICACION <EXPRESION>
+              | <EXPRESION> DIVISION <EXPRESION>
+              | <EXPRESION> POTENCIA <EXPRESION>
+              | <EXPRESION> MODULO <EXPRESION>
+              | <EXPRESION> COMPARACIONIGUALIGUAL <EXPRESION>
+              | <EXPRESION> NEGACION <EXPRESION>
+              | <EXPRESION> MENORQUE <EXPRESION>
+              | <EXPRESION> MENORIGUALQUE <EXPRESION>
+              | <EXPRESION> MAYORQUE <EXPRESION>
+              | <EXPRESION> MAYORIGUALQUE <EXPRESION>
+              | NOT <EXPRESION>
+              | <EXPRESION> XOR <EXPRESION>
+              | <EXPRESION> AND <EXPRESION>
+              | <EXPRESION> OR <EXPRESION>
+              | ENTERO
+              | DECIMAL
+              | CADENA
+              | CARACTER
+              | BOOLEANO
+              | PAR1 <EXPRESION> PAR2
+              | ID
+	      | <ID> "[" <EXPRESION> "]"
+              | <ID> "[" <EXPRESION> "]" "[" <EXPRESION> "]"
+              | <LLAMADA_EXP>
+              | "ROUND" "(" <EXPRESION> ")"
+              | "LENGTH" "(" <EXPRESION> ")"
+              | "TOSTRING" "(" <EXPRESION> ")"
+              | <ID> "." "FIND" "(" <EXPRESION> ")"
+
+<INCREMENTOA> ::= ID INCREMENTO FINCADENA
+
+<DECREMENTOA> ::= ID DECREMENTO FINCADENA

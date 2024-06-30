@@ -12,9 +12,13 @@ import excepciones.Errores;
 import expresiones.AccesoVariable;
 import instrucciones.StartWith;
 import instrucciones.AsignacionVariable;
+import instrucciones.AsignacionVector;
 import instrucciones.Declaracion;
+import instrucciones.DeclaracionLista;
+
 import instrucciones.DeclaracionVector;
 import instrucciones.Funcion;
+
 import instrucciones.Metodo;
 import java.io.BufferedReader;
 import java.io.File;
@@ -376,7 +380,7 @@ public class EditorPrincipal extends javax.swing.JFrame {
                         continue;
                     }
 
-                    if (a instanceof Metodo || a instanceof Funcion) {
+                    if (a instanceof Metodo || a instanceof Funcion ) {
                         ast.addFunciones(a);
                     }
                 }
@@ -386,18 +390,18 @@ public class EditorPrincipal extends javax.swing.JFrame {
                     if (a == null) {
                         continue;
                     }
-                    if (a instanceof Declaracion || a instanceof AsignacionVariable || a instanceof DeclaracionVector) {
+                    if (a instanceof Declaracion || a instanceof AsignacionVariable ||
+                        a instanceof DeclaracionVector || a instanceof DeclaracionLista ||
+                        a instanceof AsignacionVector 
+                           ) {
                         var res = a.interpretar(ast, tabla);
                         if (res instanceof Errores) {
                             lista.add((Errores) res);
-                        } else {
-                            // Almacenar el resultado de la declaración en la consola
-                            consolaBuilder.append(res != null ? res.toString() : "").append("\n");
-                        }
+                        } 
                     }
                 }
 
-                //execute -> start_with
+                //execute -> start_with 3er VUELTA
                 StartWith r = null;
                 for (var a : ast.getInstrucciones()) {
                     if (a == null) {
@@ -416,9 +420,9 @@ public class EditorPrincipal extends javax.swing.JFrame {
                 
 
                 consolaBuilder.append(ast.getConsola());
-                 lista.addAll(ast.getErrores());
-                for (Errores error : lista) {
-                    erroresBuilder.append(error.toString()).append("\n");
+                lista.addAll(ast.getErrores());
+                 for (Errores error : lista) {
+                erroresBuilder.append(error.toString()).append("\n");
                 }
                 
 
