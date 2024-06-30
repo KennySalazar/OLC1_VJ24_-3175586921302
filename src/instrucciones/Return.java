@@ -19,7 +19,6 @@ public class Return extends Instruccion {
 
     private Instruccion expresionRetorno;
 
-  
     public Return(Instruccion expresionRetorno, int linea, int col) {
         super(new Tipo(tipoDato.VOID), linea, col);
         this.expresionRetorno = expresionRetorno;
@@ -36,8 +35,15 @@ public class Return extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         if (this.expresionRetorno != null) {
-            return expresionRetorno.interpretar(arbol, tabla);
+            Object valorRetorno = expresionRetorno.interpretar(arbol, tabla);
+
+            if (valorRetorno instanceof Errores) {
+                return valorRetorno;
+            }
+
+            this.tipo.setTipo(this.expresionRetorno.tipo.getTipo());
+            return valorRetorno;
         }
-        return null; 
+        return null;
     }
 }

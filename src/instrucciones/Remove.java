@@ -22,16 +22,8 @@ public class Remove extends Instruccion {
     private String identificador;
     private Instruccion indice;
 
-    /**
-     * Constructor para la instrucción de eliminar elemento de una lista.
-     *
-     * @param identificador Identificador de la lista.
-     * @param indice Expresión que representa el índice del elemento a eliminar.
-     * @param linea Línea donde se realiza la operación.
-     * @param col Columna donde se realiza la operación.
-     */
     public Remove(String identificador, Instruccion indice, int linea, int col) {
-        super(null, linea, col); // No devuelve ningún valor específico
+        super(new Tipo(tipoDato.VOID), linea, col);
         this.identificador = identificador;
         this.indice = indice;
     }
@@ -56,12 +48,27 @@ public class Remove extends Instruccion {
             return new Errores("SEMANTICO", "El indice esta fuera de los limites de la lista " + identificador, this.linea, this.col);
         }
 
-        // Eliminar el elemento de la lista
-        lista.remove(index);
+        
+        Object valorEliminado = lista.remove(index);
 
-        // Actualizar el valor en la tabla de símbolos
+       
         s.setValor(lista);
 
-        return null;
+        
+        if (valorEliminado instanceof Integer) {
+            this.tipo.setTipo(tipoDato.ENTERO);
+        } else if (valorEliminado instanceof Double) {
+            this.tipo.setTipo(tipoDato.DECIMAL);
+        } else if (valorEliminado instanceof Character) {
+            this.tipo.setTipo(tipoDato.CARACTER);
+        } else if (valorEliminado instanceof String) {
+            this.tipo.setTipo(tipoDato.CADENA);
+        } else if (valorEliminado instanceof Boolean) {
+            this.tipo.setTipo(tipoDato.BOOLEANO);
+        } else {
+            return new Errores("SEMANTICO", "Tipo de dato no soportado", this.linea, this.col);
+        }
+
+        return valorEliminado;
     }
 }

@@ -94,8 +94,11 @@ public class If extends Instruccion {
                 }
                 var resultado = i.interpretar(arbol, newTabla);
 
-                if (resultado instanceof Break || resultado instanceof Return) {
+                if (resultado instanceof Break) {
                     return resultado;
+                }
+                if (resultado instanceof Return){
+                   return resultado;
                 }
                 if (resultado instanceof Continue) {
                     return resultado;

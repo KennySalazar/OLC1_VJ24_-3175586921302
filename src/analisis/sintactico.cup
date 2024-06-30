@@ -162,7 +162,6 @@ INSTRUCCION ::= IMPRESION:a             {:   RESULT=a; :}
               | RUN:a                   {:   RESULT=a;   :}
               | DECLARACION_LISTA:a                   {:   RESULT=a;   :}
               | ANADIR:a                   {:   RESULT=a;   :}
-              | ELIMINAR:a                   {:   RESULT=a;   :}
               | LLAMADA:a           {:   RESULT=a;   :}
               | RETORNO_VALOR:a           {:   RESULT=a;   :}
               | FUNCION:a           {:   RESULT=a;   :}
@@ -294,7 +293,7 @@ ANADIR ::= ID:b PUNTO APPEND PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new App
 
 ;
 
-ELIMINAR ::= ID:b PUNTO REMOVE PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Remove(b, a, aleft, aright); :}
+ELIMINAR ::= ID:b PUNTO REMOVE PAR1 EXPRESION:a PAR2  {: RESULT = new Remove(b, a, aleft, aright); :}
 
 ;
 
@@ -380,6 +379,8 @@ EXPRESION ::= MENOS EXPRESION:a          {: RESULT = new Aritmeticas(a, Operador
             | LENGTH PAR1 EXPRESION:a PAR2 {: RESULT = new Length(a, aleft, aright); :}
             | TOSTRING PAR1 EXPRESION:a PAR2 {: RESULT = new ToString(a, aleft, aright); :}
             | ID:b PUNTO FIND PAR1 EXPRESION:a PAR2 {: RESULT = new Find(b, a, aleft, aright); :}
+            | ELIMINAR:a {: RESULT = a; :}
+
 ;
 
 
